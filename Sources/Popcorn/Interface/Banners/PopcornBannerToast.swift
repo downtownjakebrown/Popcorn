@@ -74,7 +74,7 @@ public struct PopcornBannerToast: View {
                     }
                 }.padding(10)
             }
-        }.offset(y: -topSafeArea)
+        }.offset(y: -Device.topSafeArea)
     }
     
     private var topSpacer: some View {

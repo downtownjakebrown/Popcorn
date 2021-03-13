@@ -14,3 +14,11 @@ struct WidthGetter: View {
         }.frame(height: 1)
     }
 }
+
+struct Device {
+    static var topSafeArea: CGFloat {
+        UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0.0
+    }
+}
+
+
