@@ -38,9 +38,6 @@ public struct PopcornBannerToast: View {
         self.dragEnabled = dragEnabled
         self.dragDismissAction = dragDismissAction
         self.tapAction = tapAction
-        
-        self._localExpand = State(initialValue: expandBanner.wrappedValue)
-        
     }
     
     @EnvironmentObject var popcorn: Popcorn
@@ -48,6 +45,7 @@ public struct PopcornBannerToast: View {
     private let headerTextFont = Font.system(size: 12, weight: .medium)
     private let headlineTextFont = Font.system(size: 14, weight: .bold)
     private let messageTextFont = Font.system(size: 14, weight: .regular)
+    private let messageTextUIFont = UIFont.systemFont(ofSize: 14, weight: .regular)
     
     private var headerTextColor: Color {
         Color.gray
@@ -116,42 +114,41 @@ public struct PopcornBannerToast: View {
         }
     }
     
-    @State private var localExpand: Bool
-    
     @State private var messageAreaWidth: CGFloat = 0
+    private let collapsedLineLimit: Int = 3
+    private let expandedLineLimit: Int = 100
     
     private var message: some View {
-        HStack {
+        HStack() {
             Text(messageText + "\n")
+            .fixedSize(horizontal: false, vertical: true)
             .font(messageTextFont)
             .foregroundColor(messageTextColor)
             .multilineTextAlignment(.leading)
-            .lineLimit(localExpand ? 10 : 3)
-            .frame(height: getHeight())
-            
-            Spacer()
+            .lineLimit((expandBanner ? expandedLineLimit : collapsedLineLimit + 1))
+            .border(Color.black)
+                
+            Spacer(minLength: 0)
         }
-        .onChange(of: expandBanner, perform: { value in
-            withAnimation(.linear(duration: 0.1)) {
-                localExpand = value
-            }
-        })
-        .background(
-            WidthGetter(width: $messageAreaWidth)
-        )
+        .background(WidthGetter(width: $messageAreaWidth))
+        .frame(height: getHeight(for: (expandBanner ? expandedLineLimit : collapsedLineLimit)), alignment: .top)
+        .border(Color.red)
+        .clipped()
     }
-    
-    private func getHeight() -> CGFloat {
-        let total = self.messageText.boundingRect(
-            with: CGSize(
-                width: messageAreaWidth,
-                height: .greatestFiniteMagnitude
-            ),
-            options: .usesLineFragmentOrigin,
-            attributes: [.font: UIFont.systemFont(ofSize: 14, weight: .regular)],
-            context: nil
+
+    private func getHeight(for lines: Int) -> CGFloat {
+        let frame = CGRect(
+            x: 0, y: 0,
+            width: messageAreaWidth,
+            height: CGFloat.greatestFiniteMagnitude
         )
-        return total.height
-    }
+        let label: UILabel = UILabel(frame: frame)
+        label.numberOfLines = lines
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.font = messageTextUIFont
+        label.text = messageText
+        label.sizeToFit()
+        return label.frame.height
+   }
     
 }
