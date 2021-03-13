@@ -21,7 +21,7 @@ struct BannerElementBackdrop: View {
         switch popcorn.popupStyle.corners {
             case .square:  return 0
             case .rounded: return 10
-            case .capsule: return 25
+            case .capsule: return 15
         }
     }
     

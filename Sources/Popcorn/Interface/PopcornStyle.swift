@@ -66,8 +66,3 @@ public struct PopcornColorScheme {
     }
     
 }
-
-enum PopupFormat {
-    case prompt
-    case banner
-}
