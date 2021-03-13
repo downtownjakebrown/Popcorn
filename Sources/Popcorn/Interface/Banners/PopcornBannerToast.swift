@@ -6,6 +6,8 @@ import SwiftUI
 
 public struct PopcornBannerToast: View {
     
+    @EnvironmentObject var popcorn: Popcorn
+    
     private let headerImage: AnyView?
     private let headerTextLeft: String
     private let headerTextRight: String
@@ -40,19 +42,6 @@ public struct PopcornBannerToast: View {
         self.tapAction = tapAction
     }
     
-    @EnvironmentObject var popcorn: Popcorn
-    
-    private let headerTextFont = Font.system(size: 12, weight: .medium)
-    private let headlineTextFont = Font.system(size: 14, weight: .bold)
-    
-    
-    private var headerTextColor: Color {
-        Color.gray
-    }
-    private var headlineTextColor: Color {
-        popcorn.popupStyle.colors.textColor
-    }
-    
     private var topSafeArea: CGFloat {
         UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0.0
     }
@@ -66,9 +55,17 @@ public struct PopcornBannerToast: View {
                 tapAction: tapAction
             ) {
                 VStack(spacing: 7) {
-                    header
+                    BannerElementHeader(
+                        headerImage: headerImage,
+                        headerTextLeft: headerTextLeft,
+                        headerTextRight: headerTextRight,
+                        headerTextColor: .gray
+                    )
                     VStack(spacing: 2) {
-                        headline
+                        BannerElementHeadline(
+                            headlineText: headlineText,
+                            headlineTextColor: popcorn.popupStyle.colors.textColor
+                        )
                         BannerElementMessage(
                             expandBanner: $expandBanner,
                             messageText: messageText,
@@ -83,40 +80,5 @@ public struct PopcornBannerToast: View {
     private var topSpacer: some View {
         Rectangle().fill(Color.clear).frame(height: topSafeArea)
     }
-    
-    private var header: some View {
-        HStack {
-            if headerImage != nil {
-                headerImage
-                .frame(width: 20, height: 20)
-            }
-            if headerTextLeft != "" {
-                Text(headerTextLeft)
-                .font(headerTextFont)
-                .foregroundColor(headerTextColor)
-            }
-            Spacer()
-            if headerTextRight != "" {
-                Text(headerTextRight)
-                .font(headerTextFont)
-                .foregroundColor(headerTextColor)
-            }
-        }
-    }
-    
-    private var headline: some View {
-        HStack {
-            Text(headlineText)
-            .font(headlineTextFont)
-            .foregroundColor(headlineTextColor)
-            .multilineTextAlignment(.leading)
-            .lineLimit(1)
-            Spacer()
-        }
-    }
-    
-    
-    
-    
     
 }
