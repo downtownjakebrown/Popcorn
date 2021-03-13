@@ -10,17 +10,17 @@ public class Popcorn: ObservableObject {
     
     /// The popup views
     let popupViews: [AnyView]
-    /// The names for reference to the views
+    /// The names for reference to the popup views
     let popupNames: [AnyHashable]
+    /// The banner views
+    let bannerViews: [AnyView]
+    /// The names for reference to the banner views
+    let bannerNames: [AnyHashable]
+    
     /// Delay time between sequential popups
     let delayAmount: TimeInterval = 0.5
     /// The style of the app's popups
     let popupStyle: PopcornStyle
-    
-    /// <#Description#>
-    let bannerViews: [AnyView]
-    /// <#Description#>
-    let bannerNames: [AnyHashable]
     
     /// Popcorn's main view model, which stores your apps popups, and coordinates their presentation.
     /// - Parameters:
@@ -87,7 +87,7 @@ public class Popcorn: ObservableObject {
         }
     }
 
-    /// If the current popup should be shown or not
+    /// If the current popup should be shown or not (used internally for sequence timing)
     var popupShouldShow: Bool = true {
         didSet {
             if popupShouldShow == false {
@@ -116,7 +116,7 @@ public class Popcorn: ObservableObject {
         }
     }
     
-    /// <#Description#>
+    /// Holds value of the current banner to be shown
     public var currentBanner: AnyHashable? = nil {
         willSet(newValue) {
             if currentBanner != nil && newValue != nil {
@@ -136,7 +136,7 @@ public class Popcorn: ObservableObject {
         }
     }
     
-    /// <#Description#>
+    /// If the current banner should be shown or not (used internally for sequence timing)
     var bannerShouldShow: Bool = true {
         didSet {
             if bannerShouldShow == false {
@@ -154,7 +154,5 @@ public class Popcorn: ObservableObject {
             }
         }
     }
-    
-    
     
 }
