@@ -6,7 +6,7 @@ import SwiftUI
 
 struct BannerElementMessage: View {
     
-    @Binding var expandBanner: Bool
+    let expandBanner: Bool
     let messageText: String
     let messageTextColor: Color
     
@@ -30,13 +30,11 @@ struct BannerElementMessage: View {
             .foregroundColor(messageTextColor)
             .multilineTextAlignment(.leading)
             .lineLimit((expandBanner ? expandedLineLimit : collapsedLineLimit + 1))
-            .border(Color.black)
                 
             Spacer(minLength: 0)
         }
         .background(WidthGetter(width: $messageAreaWidth))
         .frame(height: getHeight(for: (expandBanner ? expandedLineLimit : collapsedLineLimit)), alignment: .top)
-        .border(Color.red)
         .clipped()
     }
     
