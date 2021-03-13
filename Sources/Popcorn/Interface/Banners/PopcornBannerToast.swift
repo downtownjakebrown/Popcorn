@@ -44,8 +44,7 @@ public struct PopcornBannerToast: View {
     
     private let headerTextFont = Font.system(size: 12, weight: .medium)
     private let headlineTextFont = Font.system(size: 14, weight: .bold)
-    private let messageTextFont = Font.system(size: 14, weight: .regular)
-    private let messageTextUIFont = UIFont.systemFont(ofSize: 14, weight: .regular)
+    
     
     private var headerTextColor: Color {
         Color.gray
@@ -53,9 +52,7 @@ public struct PopcornBannerToast: View {
     private var headlineTextColor: Color {
         popcorn.popupStyle.colors.textColor
     }
-    private var messageTextColor: Color {
-        popcorn.popupStyle.colors.textColor
-    }
+    
     private var topSafeArea: CGFloat {
         UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0.0
     }
@@ -72,7 +69,11 @@ public struct PopcornBannerToast: View {
                     header
                     VStack(spacing: 2) {
                         headline
-                        message
+                        BannerElementMessage(
+                            expandBanner: $expandBanner,
+                            messageText: messageText,
+                            messageTextColor: popcorn.popupStyle.colors.textColor
+                        )
                     }
                 }.padding(10)
             }
@@ -114,41 +115,8 @@ public struct PopcornBannerToast: View {
         }
     }
     
-    @State private var messageAreaWidth: CGFloat = 0
-    private let collapsedLineLimit: Int = 3
-    private let expandedLineLimit: Int = 100
     
-    private var message: some View {
-        HStack() {
-            Text(messageText + "\n")
-            .fixedSize(horizontal: false, vertical: true)
-            .font(messageTextFont)
-            .foregroundColor(messageTextColor)
-            .multilineTextAlignment(.leading)
-            .lineLimit((expandBanner ? expandedLineLimit : collapsedLineLimit + 1))
-            .border(Color.black)
-                
-            Spacer(minLength: 0)
-        }
-        .background(WidthGetter(width: $messageAreaWidth))
-        .frame(height: getHeight(for: (expandBanner ? expandedLineLimit : collapsedLineLimit)), alignment: .top)
-        .border(Color.red)
-        .clipped()
-    }
-
-    private func getHeight(for lines: Int) -> CGFloat {
-        let frame = CGRect(
-            x: 0, y: 0,
-            width: messageAreaWidth,
-            height: CGFloat.greatestFiniteMagnitude
-        )
-        let label: UILabel = UILabel(frame: frame)
-        label.numberOfLines = lines
-        label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = messageTextUIFont
-        label.text = messageText
-        label.sizeToFit()
-        return label.frame.height
-   }
+    
+    
     
 }
