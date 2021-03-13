@@ -1,4 +1,3 @@
-
 ![PopcornBanner](./Images/PopcornBanner.png)
 
 [![Platform](http://img.shields.io/badge/platform-iOS-blue.svg?style=flat)](https://developer.apple.com/ios) 
@@ -8,19 +7,27 @@
 [![Issues](https://img.shields.io/github/issues-raw/downtownjakebrown/Popcorn)](https://github.com/downtownjakebrown/Popcorn/issues)
 [![Current Version](https://img.shields.io/github/v/tag/downtownjakebrown/Popcorn)](https://github.com/downtownjakebrown/Popcorn)
 
-A SwiftUI solution for custom popups.
+## Overview
 
-THIS IS A brief summary of the framework and it's usage goes here. This is a brief summary of the project. This is a brief summary of the project. This is a brief summary of the project. This is a brief summary of the project. This is a brief summary of the project.
-
-This is a brief summary of the project. This is a brief summary of the project. This is a brief summary of the project. This is a brief summary of the project.
+A solution for adding custom popups to your SwiftUI app. 
 
 ## Features
 
-This is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description.
+Popcorn is a system for creating, storing, and presenting popups in your SwiftUI app. At a high level, the system includes:
+1. A (growing) number of customizable popup template views;
+2. A view modifier for injecting the popup views into your view hierarchy; and
+3. A environmental view model for storing and coordinating presentation of the popup views.
+
+
 
 ## Example App
 
 An example iOS app showing Popcorn in action can be found in this [GitHub repo](https://github.com/downtownjakebrown/PopcornExampleApp).
+
+#### Example Project Installation
+
+
+
 
 ## Usage
 
@@ -29,6 +36,11 @@ This is a description. The description goes here and describes things because it
 ## Install
 
 This is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description.
+
+## Popup Template List
+* ...
+* ...
+* ...
 
 ## Future Work
 
