@@ -42,43 +42,40 @@ public struct PopcornBannerToast: View {
         self.tapAction = tapAction
     }
     
-    private var topSafeArea: CGFloat {
-        UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0.0
-    }
-    
     public var body: some View {
         VStack(spacing: 0) {
-            topSpacer
+            BannerElementTopSpacer()
             BannerContainer(
                 dragEnabled: dragEnabled,
                 dragDismissAction: dragDismissAction,
                 tapAction: tapAction
             ) {
-                VStack(spacing: 7) {
-                    BannerElementHeader(
-                        headerImage: headerImage,
-                        headerTextLeft: headerTextLeft,
-                        headerTextRight: headerTextRight,
-                        headerTextColor: .gray
-                    )
-                    VStack(spacing: 2) {
-                        BannerElementHeadline(
-                            headlineText: headlineText,
-                            headlineTextColor: popcorn.popupStyle.colors.textColor
-                        )
-                        BannerElementMessage(
-                            expandBanner: $expandBanner,
-                            messageText: messageText,
-                            messageTextColor: popcorn.popupStyle.colors.textColor
-                        )
-                    }
-                }.padding(10)
+                bannerContentBuilder
             }
         }.offset(y: -Device.topSafeArea)
     }
     
-    private var topSpacer: some View {
-        Rectangle().fill(Color.clear).frame(height: topSafeArea)
+    // Convenience Content Builder
+    private var bannerContentBuilder: some View {
+        VStack(spacing: 7) {
+            BannerElementHeader(
+                headerImage: headerImage,
+                headerTextLeft: headerTextLeft,
+                headerTextRight: headerTextRight,
+                headerTextColor: .gray
+            )
+            VStack(spacing: 2) {
+                BannerElementHeadline(
+                    headlineText: headlineText,
+                    headlineTextColor: popcorn.popupStyle.colors.textColor
+                )
+                BannerElementMessage(
+                    expandBanner: $expandBanner,
+                    messageText: messageText,
+                    messageTextColor: popcorn.popupStyle.colors.textColor
+                )
+            }
+        }.padding(10)
     }
     
 }
