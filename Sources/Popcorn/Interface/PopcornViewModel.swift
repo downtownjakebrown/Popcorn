@@ -27,7 +27,7 @@ public class Popcorn: ObservableObject {
     ///   - popups: Your apps popups.
     ///   - style: The style of the app's popups.
     public init(
-        with popups: [PopcornPopup],
+        popups: [PopcornPopup],
         style: PopcornStyle = PopcornStyle()
     ) {
         
