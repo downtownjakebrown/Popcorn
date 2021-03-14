@@ -18,8 +18,6 @@ Popcorn is a system for creating, storing, and presenting popups in your SwiftUI
 2. A view modifier for injecting the popup views into your view hierarchy; and
 3. A environmental view model for storing and coordinating presentation of the popup views.
 
-![PopcornFlowchart](./Images/PopcornFlowchart.png)
-
 Explain more about the popups, how you can stylize them. How you can present them using the environemtn. How customizing the popups feels familiar because they are just views. How the popups have collision preventance because only one can be shown at a time. 
 
 ## Example App
