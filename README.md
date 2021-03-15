@@ -60,8 +60,10 @@ More on app setup...
 
 Once Popcorn has been setup in your app, its usage is straightforward. To show a popup simply set currentPopup equal to the reference name of the popup you want to show.
 
-```Swift
-let var = 0
+```swift
+struct Test {
+    let test : String?
+}
 ```
 
 
