@@ -34,8 +34,9 @@ Explain more about the popups, how you can stylize them. How you can present the
 
 ## Installation
 
-`Popcorn` is available as a **Swift Package**. To integrate `Popcorn` into your Xcode project, specify this packages repository URL (see below) at `File -> Swift Packages -> Add Package Dependency...`
+`Popcorn` is available as a **Swift Package**. To integrate `Popcorn` into your Xcode project, specify this package's repository URL at `File -> Swift Packages -> Add Package Dependency...`
 
+#### Repository URL:
 ```
 https://github.com/downtownjakebrown/Popcorn.git
 ```
