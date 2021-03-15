@@ -29,25 +29,25 @@ A framework for easily adding custom popups to your SwiftUI app.
 
 ... 
 
-Explain more about the popups, how you can stylize them. How you can present them using the environemtn. How customizing the popups feels familiar because they are just views. How the popups have collision preventance because only one can be shown at a time. 
+Explain more about the popups, how you can stylize them. How you can present them using the environment. How customizing the popups feels familiar because they are just views. How the popups have collision preventance because only one can be shown at a time. 
 
 
 ## Installation
 
 `Popcorn` is available as a **Swift Package**. To integrate `Popcorn` into your Xcode project, specify this package's repository URL at `File -> Swift Packages -> Add Package Dependency...`
 
-#### Repository URL:
+### Repository URL:
 ```
 https://github.com/downtownjakebrown/Popcorn.git
 ```
 
-#### More on Swift Packages:
+### More on Swift Packages:
 The [Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code. It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.
 
 
 ## Implementation
 
-#### Setup:
+### Setup:
 
 As described above, Popcorn is a system for creating, storing, and presenting popups in your SwiftUI app. At a high level, the system includes:
 1. A (growing) number of customizable popup view templates;
@@ -56,7 +56,7 @@ As described above, Popcorn is a system for creating, storing, and presenting po
 
 More on app setup...
 
-#### Usage:
+### Usage:
 
 Once Popcorn has been setup in your app, its usage is straightforward. To show a popup simply set currentPopup equal to the reference name of the popup you want to show.
 
@@ -71,7 +71,7 @@ struct Test {
 
 An example iOS app showing Popcorn in action can be found in this [GitHub repo](https://github.com/downtownjakebrown/PopcornExampleApp).
 
-#### Example Project Installation
+### Example Project Installation
 
 This is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description.
 
