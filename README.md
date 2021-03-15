@@ -13,10 +13,14 @@ A framework for easily adding custom popups to your SwiftUI app.
 
 #### Table of Contents:
 
-- [Features](##features)
+- [Features](#features)
 - [Installation](#installation)
 - [Implementation](#implementation)
-
+- [Example App](#example-app)
+- [Popup Templates](#example-app)
+- [Future Work](#future-work)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Features
 
@@ -64,7 +68,7 @@ This is a description. The description goes here and describes things because it
 
 
 
-## Popup Template List
+## Popup Templates
 * ...
 * ...
 * ...
