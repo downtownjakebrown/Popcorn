@@ -27,7 +27,7 @@ A framework for easily adding custom popups to your SwiftUI app.
 
 ## Features
 
-This is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description.
+... 
 
 Explain more about the popups, how you can stylize them. How you can present them using the environemtn. How customizing the popups feels familiar because they are just views. How the popups have collision preventance because only one can be shown at a time. 
 
@@ -60,8 +60,8 @@ More on app setup...
 
 Once Popcorn has been setup in your app, its usage is straightforward. To show a popup simply set currentPopup equal to the reference name of the popup you want to show.
 
-```
-
+```swift
+let var = 0
 ```
 
 
