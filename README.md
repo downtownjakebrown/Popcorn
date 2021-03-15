@@ -13,7 +13,6 @@
 A framework for easily adding custom popups to your SwiftUI app. 
 
 
-
 ## Table of Contents:
 
 - [Features](#features)
@@ -26,13 +25,11 @@ A framework for easily adding custom popups to your SwiftUI app.
 - [License](#license)
 
 
-
 ## Features
 
 This is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description.
 
 Explain more about the popups, how you can stylize them. How you can present them using the environemtn. How customizing the popups feels familiar because they are just views. How the popups have collision preventance because only one can be shown at a time. 
-
 
 
 ## Installation
@@ -45,7 +42,6 @@ https://github.com/downtownjakebrown/Popcorn.git
 
 #### More on Swift Packages:
 The [Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code. It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.
-
 
 
 ## Implementation
@@ -68,7 +64,6 @@ Once Popcorn has been setup in your app, its usage is straightforward. To show a
 ```
 
 
-
 ## Example App
 
 An example iOS app showing Popcorn in action can be found in this [GitHub repo](https://github.com/downtownjakebrown/PopcornExampleApp).
@@ -76,7 +71,6 @@ An example iOS app showing Popcorn in action can be found in this [GitHub repo](
 #### Example Project Installation
 
 This is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description.
-
 
 
 ## Popup Templates
@@ -88,16 +82,16 @@ Popups requiring user action to proceed.
 
 | Name | Description | Example |       
 | :--- | :---------- | :------ |
-| `PopcornButtonsPrompt` | A popup prompt with two buttons. | ![PopcornButtonsPrompt](./Images/PopcornButtonsPrompt.png) |
-| `PopcornGetTextPrompt` | A popup prompt for getting user-input text. | ![PopcornGetTextPrompt](./Images/PopcornGetTextPrompt.png) |
-| `PopcornMessagePrompt` | A popup prompt for displaying a short message. | ![PopcornMessagePrompt](./Images/PopcornMessagePrompt.png) |
+| `PopcornButtonsPrompt` | A popup prompt with two buttons.               | <img src="./Images/PopcornButtonsPrompt.png" width="200"/> |
+| `PopcornGetTextPrompt` | A popup prompt for getting user-input text.    | <img src="./Images/PopcornGetTextPrompt.png" width="200"/> |
+| `PopcornMessagePrompt` | A popup prompt for displaying a short message. | <img src="./Images/PopcornMessagePrompt.png" width="200"/> |
 
 #### Banners: 
 Popups notifying users of something.
 
 | Name | Description | Example |       
 | :--- | :---------- | :------ |
-| `PopcornBannerToast` | An expandable banner for displaying a short message. | ![PopcornBannerToast](./Images/PopcornBannerToast.png) |
+| `PopcornBannerToast` | An expandable banner for displaying a short message. | <img src="./Images/PopcornBannerToast.png" width="200"/> |
 
 
 ## Future Work
@@ -108,16 +102,12 @@ Looking ahead, some additions may include:
 * Queuing of banner popups 
 
 
-
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
 
 
 ## License
 
 Popcorn is available under the MIT license. See the [LICENSE](./LICENSE) file for more info.
 
-[1]: ./Illustrator/ExampleIllustratorContent.ai
-[2]: 
