@@ -7,11 +7,14 @@
 [![Current Version](https://img.shields.io/github/v/release/downtownjakebrown/Popcorn)](https://github.com/downtownjakebrown/Popcorn)
 [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](http://mit-license.org) 
 
+
 ## Overview
 
 A framework for easily adding custom popups to your SwiftUI app. 
 
-#### Table of Contents:
+
+
+## Table of Contents:
 
 - [Features](#features)
 - [Installation](#installation)
@@ -21,6 +24,8 @@ A framework for easily adding custom popups to your SwiftUI app.
 - [Future Work](#future-work)
 - [Contributing](#contributing)
 - [License](#license)
+
+
 
 ## Features
 
@@ -56,6 +61,12 @@ More on app setup...
 
 #### Usage:
 
+Once Popcorn has been setup in your app, its usage is straightforward. To show a popup simply set currentPopup equal to the reference name of the popup you want to show.
+
+```
+
+```
+
 
 
 ## Example App
@@ -69,10 +80,24 @@ This is a description. The description goes here and describes things because it
 
 
 ## Popup Templates
-* ...
-* ...
-* ...
 
+A short description of the templates.
+
+#### Prompts: 
+Popups requiring user action to proceed.
+
+| Name | Description | Example |       
+| :--- | :---------- | :------ |
+| `PopcornButtonsPrompt` | A popup prompt with two buttons. | ![PopcornButtonsPrompt](./Images/PopcornButtonsPrompt.png) |
+| `PopcornGetTextPrompt` | A popup prompt for getting user-input text. | ![PopcornGetTextPrompt](./Images/PopcornGetTextPrompt.png) |
+| `PopcornMessagePrompt` | A popup prompt for displaying a short message. | ![PopcornMessagePrompt](./Images/PopcornMessagePrompt.png) |
+
+#### Banners: 
+Popups notifying users of something.
+
+| Name | Description | Example |       
+| :--- | :---------- | :------ |
+| `PopcornBannerToast` | An expandable banner for displaying a short message. | ![PopcornBannerToast](./Images/PopcornBannerToast.png) |
 
 
 ## Future Work
@@ -94,6 +119,5 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Popcorn is available under the MIT license. See the [LICENSE](./LICENSE) file for more info.
 
-
-
-
+[1]: ./Illustrator/ExampleIllustratorContent.ai
+[2]: 
