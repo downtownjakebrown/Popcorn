@@ -75,24 +75,14 @@ This is a description. The description goes here and describes things because it
 
 ## Popup Templates
 
-A short description of the templates.
+A short description of the templates. Prompts require user action to proceed. Banners notify users of something.
 
-#### Prompts: 
-Popups requiring user action to proceed.
-
-| Name | Description | Example |       
-| :--- | :---------- | :------ |
-| `PopcornButtonsPrompt` | A popup prompt with two buttons.               | <img src="./Images/PopcornButtonsPrompt.png" width="200"/> |
-| `PopcornGetTextPrompt` | A popup prompt for getting user-input text.    | <img src="./Images/PopcornGetTextPrompt.png" width="200"/> |
-| `PopcornMessagePrompt` | A popup prompt for displaying a short message. | <img src="./Images/PopcornMessagePrompt.png" width="200"/> |
-
-#### Banners: 
-Popups notifying users of something.
-
-| Name | Description | Example |       
-| :--- | :---------- | :------ |
-| `PopcornBannerToast` | An expandable banner for displaying a short message. | <img src="./Images/PopcornBannerToast.png" width="200"/> |
-
+|  Name | Type | Description | Example |       
+| :---- | :--- | :---------- | :------ |
+| `PopcornButtonsPrompt` | Prompt | A popup prompt with two buttons. | <img src="./Images/PopcornButtonsPrompt.png" width="200"/> |
+| `PopcornGetTextPrompt` | Prompt | A popup prompt for getting user-input text. | <img src="./Images/PopcornGetTextPrompt.png" width="200"/> |
+| `PopcornMessagePrompt` | Prompt | A popup prompt for displaying a short message. | <img src="./Images/PopcornMessagePrompt.png" width="200"/> |
+| `PopcornBannerToast`   | Banner | An expandable banner for displaying a short message. | <img src="./Images/PopcornBannerToast.png" width="200"/> |
 
 ## Future Work
 
