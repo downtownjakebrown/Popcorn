@@ -56,6 +56,8 @@ As described above, Popcorn is a system for creating, storing, and presenting po
 
 More on app setup...
 
+![AppFlowchart](./Images/AppFlowchart.png)
+
 ### Usage:
 
 Once Popcorn has been setup in your app, its usage is straightforward. To show a popup simply set currentPopup equal to the reference name of the popup you want to show.
