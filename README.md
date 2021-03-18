@@ -71,7 +71,7 @@ struct Test {
 
 An example iOS app showing Popcorn in action can be found in this [GitHub repo](https://github.com/downtownjakebrown/PopcornExampleApp).
 
-### Example Project Installation
+### Example Project Installation:
 
 This is a description. The description goes here and describes things because it is a description. The description goes here and describes things because it is a description.
 
@@ -93,6 +93,7 @@ Looking ahead, some additions may include:
 * Writing tests
 * More popup templates
 * Queuing of banner popups 
+* Support for custom fonts
 
 
 ## Contributing
