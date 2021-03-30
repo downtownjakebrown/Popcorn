@@ -5,62 +5,73 @@
 import SwiftUI
 import Combine
 
-/// Popcorn's main view model, which stores your apps popups, and coordinates their presentation.
+/// Popcorn's main view model, which stores your apps popups and coordinates their presentation.
 public class Popcorn: ObservableObject {
     
     /// The popup views
-    let popupViews: [AnyView]
-    /// The names for reference to the popup views
-    let popupNames: [AnyHashable]
+    var popupViews = [AnyView]()
+    /// The names (the view name/type) for reference to the popup views
+    var popupNames = [Any.Type]()
+    
     /// The banner views
-    let bannerViews: [AnyView]
-    /// The names for reference to the banner views
-    let bannerNames: [AnyHashable]
+    var bannerViews = [AnyView]()
+    /// The names (the view name/type) for reference to the banner views
+    var bannerNames = [Any.Type]()
     
     /// Delay time between sequential popups
     let delayAmount: TimeInterval = 0.5
     /// The style of the app's popups
-    let popupStyle: PopcornStyle
+    let popupStyle = PopcornStyle()
     
-    /// Popcorn's main view model, which stores your apps popups, and coordinates their presentation.
-    /// - Parameters:
-    ///   - popups: Your apps popups.
-    ///   - style: The style of the app's popups.
-    public init(
-        popups: [PopcornPopup],
-        style: PopcornStyle = PopcornStyle()
-    ) {
+    /// <#Description#>
+    /// - Parameter popups: <#popups description#>
+    public init<Content>(
+        _ popups: PopcornBucket<Content>
+    ){
         
-        // Loop thru popups, extract name and view, add to self
+        // Holders for popup views
         var popupViews = [AnyView]()
-        var popupNames = [AnyHashable]()
+        var popupNames = [Any.Type]()
+        
+        // Holders for banner views
         var bannerViews = [AnyView]()
-        var bannerNames = [AnyHashable]()
+        var bannerNames = [Any.Type]()
         
-        for i in 0..<popups.count {
-            
-            if  let view = popups[i].view,
-                let name = popups[i].name,
-                let format = popups[i].popupFormat
-            {
-                if format == .prompt {
-                    popupViews.append(view)
-                    popupNames.append(name)
-                } else if format == .banner {
-                    bannerViews.append(view)
-                    bannerNames.append(name)
-                }
+        for i in 0..<popups.popups.views.count {
+
+            let popupFormat: PopupFormat
+
+            switch popups.popups.types[i] {
+
+                case is PopcornButtonsPrompt.Type: popupFormat = .prompt
+                case is PopcornGetTextPrompt.Type: popupFormat = .prompt
+                case is PopcornMessagePrompt.Type: popupFormat = .prompt
+                case is PopcornBannerToast.Type:   popupFormat = .banner
+
+                default: print(
+                    "Could not add popcorn popup \"\(popups.popups.types[i])\" " +
+                    "because its body type does not match a valid " +
+                    "popcorn popup type."
+                )
+                continue
+
             }
-            
+
+            if popupFormat == .prompt {
+                popupViews.append(popups.popups.views[i])
+                popupNames.append(popups.popups.names[i])
+            } else if popupFormat == .banner {
+                bannerViews.append(popups.popups.views[i])
+                bannerNames.append(popups.popups.names[i])
+            }
+
         }
-        
+
         self.popupViews = popupViews
         self.popupNames = popupNames
+
         self.bannerViews = bannerViews
         self.bannerNames = bannerNames
-        
-        // Handle app popups styling
-        self.popupStyle = style
         
     }
     
@@ -68,7 +79,7 @@ public class Popcorn: ObservableObject {
     public let objectWillChange = PassthroughSubject<Popcorn,Never>()
 
     /// Holds value of the current popup to be shown
-    public var currentPopup: AnyHashable? = nil {
+    public var currentPopup: Any.Type? = nil {
         willSet(newValue) {
             if currentPopup != nil && newValue != nil {
                 // If transitioning between two popups,
@@ -86,7 +97,7 @@ public class Popcorn: ObservableObject {
             }
         }
     }
-
+    
     /// If the current popup should be shown or not (used internally for sequence timing)
     var popupShouldShow: Bool = true {
         didSet {
@@ -117,7 +128,7 @@ public class Popcorn: ObservableObject {
     }
     
     /// Holds value of the current banner to be shown
-    public var currentBanner: AnyHashable? = nil {
+    public var currentBanner: Any.Type? = nil {
         willSet(newValue) {
             if currentBanner != nil && newValue != nil {
                 // If transitioning between two banners,

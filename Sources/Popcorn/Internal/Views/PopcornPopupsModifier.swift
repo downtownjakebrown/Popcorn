@@ -55,8 +55,7 @@ fileprivate struct BannerViewBuilder: View {
             if popcorn.bannerShouldShow {
                 ForEach(0..<popcorn.bannerViews.count, id: \.self) { i in
                     if popcorn.currentBanner == popcorn.bannerNames[i] {
-                        popcorn.bannerViews[i]
-                            .transition(.bannerStyle)
+                        popcorn.bannerViews[i].transition(.bannerStyle)
                         Spacer()
                     }
                 }
