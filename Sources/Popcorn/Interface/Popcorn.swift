@@ -21,12 +21,13 @@ public class Popcorn: ObservableObject {
     /// Delay time between sequential popups
     let delayAmount: TimeInterval = 0.5
     /// The style of the app's popups
-    let popupStyle = PopcornStyle()
+    let popupStyle: PopcornSeasoning
     
-    /// <#Description#>
-    /// - Parameter popups: <#popups description#>
-    public init<Content>(
-        _ popups: PopcornBucket<Content>
+    /// Popcorn's main view model, which stores your apps popups and coordinates their presentation.
+    /// - Parameter popups: The app's popups
+    init<Content>(
+        _ popups: PopcornPacket<Content>,
+        _ style: PopcornSeasoning
     ){
         
         // Holders for popup views
@@ -46,7 +47,7 @@ public class Popcorn: ObservableObject {
                 case is PopcornButtonsPrompt.Type: popupFormat = .prompt
                 case is PopcornGetTextPrompt.Type: popupFormat = .prompt
                 case is PopcornMessagePrompt.Type: popupFormat = .prompt
-                case is PopcornBannerToast.Type:   popupFormat = .banner
+                case is PopcornMessageBanner.Type:   popupFormat = .banner
 
                 default: print(
                     "Could not add popcorn popup \"\(popups.popups.types[i])\" " +
@@ -72,6 +73,9 @@ public class Popcorn: ObservableObject {
 
         self.bannerViews = bannerViews
         self.bannerNames = bannerNames
+        
+        // Add style to self
+        self.popupStyle = style
         
     }
     

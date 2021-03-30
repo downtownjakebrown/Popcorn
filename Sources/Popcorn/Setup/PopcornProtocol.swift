@@ -4,7 +4,7 @@
 
 import SwiftUI
 
-/// <#Description#>
+/// A helper protocol for popcorn setup.
 public protocol PopcornProtocol {
     var names: [Any.Type] { get }
     var types: [Any.Type] { get }

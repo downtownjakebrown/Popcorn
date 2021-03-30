@@ -5,7 +5,7 @@
 import SwiftUI
 
 /// The style of the app's popups
-public struct PopcornStyle {
+public struct PopcornSeasoning {
     
     let corners: PopcornCornerStyle
     let colors: PopcornColorScheme

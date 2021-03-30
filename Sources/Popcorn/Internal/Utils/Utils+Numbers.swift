@@ -1,8 +1,5 @@
 //
-//  File.swift
-//  
-//
-//  Created by jacob brown on 3/11/21.
+// See LICENSE file for this package’s licensing information.
 //
 
 import SwiftUI

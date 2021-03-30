@@ -4,14 +4,14 @@
 
 import Foundation
 
-/// <#Description#>
-public struct PopcornBucket<Content: PopcornProtocol> {
+/// A container for popcorn popups.
+public struct PopcornPacket<Content: PopcornProtocol> {
     
-    /// <#Description#>
+    /// The app's popups.
     let popups: Content
     
-    /// <#Description#>
-    /// - Parameter popups: <#popups description#>
+    /// A container for popcorn popups.
+    /// - Parameter popups: The app's popups.
     public init(@PopcornBuilder popups: () -> Content) {
         self.popups = popups()
     }

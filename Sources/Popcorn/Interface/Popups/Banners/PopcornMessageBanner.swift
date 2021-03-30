@@ -5,7 +5,7 @@
 import SwiftUI
 
 /// A banner for displaying a short message.
-public struct PopcornBannerToast: View {
+public struct PopcornMessageBanner: View {
     
     // Environment
     @EnvironmentObject var popcorn: Popcorn
