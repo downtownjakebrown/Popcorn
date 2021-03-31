@@ -5,90 +5,78 @@
 import SwiftUI
 
 /// A popup prompt for displaying a short message.
-public struct PopcornMessagePrompt: View {
+public struct PopcornMessagePrompt<HeaderImage, ButtonFill, BackgroundFill>: View where HeaderImage: View, ButtonFill: ShapeStyle, BackgroundFill: ShapeStyle {
     
     // Environment
     @EnvironmentObject var popcorn: Popcorn
     
-    // Header View
-    private let headerView: AnyView?
+    // Header
+    private let headerImage: HeaderImage
+    private let headerText: String
+    private let headerTextColor: Color
     
-    // Text Data
-    private let headlineText: String
+    // Body
     private let bodyText: String
+    private let bodyTextColor: Color
+    
+    // Button
     private let buttonText: String
-    
-    // Popup State
-    private let buttonActive: Bool
-    private let dragEnabled: Bool
-    
-    // Action Closures
+    private let buttonTextColor: Color
+    private let buttonFill: ButtonFill
+    private let buttonLoading: Bool
     private let buttonAction: () -> Void
+    
+    // Dragging
+    private let dragEnabled: Bool
     private let dragDismissAction: () -> Void
+    
+    // Background
+    private let backgroundFill: BackgroundFill
     private let backgroundTapAction: () -> Void
     
-    /// A popup prompt for displaying a short message.
-    /// - Parameters:
-    ///   - headlineText: The headline message on the prompt.
-    ///   - bodyText: The body message on the prompt.
-    ///   - buttonText: The text label of the button.
-    ///   - buttonLoading: The state of the button. When true, an activity indicator is shown and the button is disabled.
-    ///   - dragEnabled: Whether or not the popup may be dragged.
-    ///   - buttonAction: A closure exectued when the button is tapped.
-    ///   - dragDismissAction: A closure executed when the popup is dragged down past a threshold.
-    ///   - backgroundTapAction: A closure executed when the background surrounding the popup is tapped.
+    // ...
     public init(
-        headlineText: String,
+        
+        headerImage: HeaderImage,
+        headerText: String,
+        headerTextColor: Color = .black,
+        
         bodyText: String,
+        bodyTextColor: Color = .black,
+        
         buttonText: String,
-        buttonLoading: Bool? = false,
-        dragEnabled: Bool? = true,
+        buttonTextColor: Color = .white,
+        buttonFill: ButtonFill,
+        buttonLoading: Bool = false,
         buttonAction: @escaping () -> Void,
-        dragDismissAction: (() -> Void)? = {},
-        backgroundTapAction: (() -> Void)? = {}
+        
+        dragEnabled: Bool = true,
+        dragDismissAction: @escaping () -> Void = {},
+        
+        backgroundFill: BackgroundFill,
+        backgroundTapAction: @escaping () -> Void = {}
+        
     ) {
-        self.headerView = nil
-        self.headlineText = headlineText
-        self.bodyText  = bodyText
+        
+        self.headerImage = headerImage
+        self.headerText = headerText
+        self.headerTextColor = headerTextColor
+        
+        self.bodyText = bodyText
+        self.bodyTextColor = bodyTextColor
+        
         self.buttonText = buttonText
-        self.buttonActive = buttonLoading!
-        self.dragEnabled = dragEnabled!
+        self.buttonTextColor = buttonTextColor
+        self.buttonFill = buttonFill
+        self.buttonLoading = buttonLoading
         self.buttonAction = buttonAction
-        self.dragDismissAction = dragDismissAction!
-        self.backgroundTapAction = backgroundTapAction!
-    }
-    
-    /// A popup prompt for displaying a short message.
-    /// - Parameters:
-    ///   - headerImage: A view for displaying illustrated content at the top of the prompt.
-    ///   - headlineText: The headline message on the prompt.
-    ///   - bodyText: The body message on the prompt.
-    ///   - buttonText: The text label of the button.
-    ///   - buttonLoading: The state of the button. When true, an activity indicator is shown and the button is disabled.
-    ///   - dragEnabled: Whether or not the popup may be dragged.
-    ///   - buttonAction: A closure exectued when the button is tapped.
-    ///   - dragDismissAction: A closure executed when the popup is dragged down past a threshold.
-    ///   - backgroundTapAction: A closure executed when the background surrounding the popup is tapped.
-    public init<Content: View>(
-        headerView: Content,
-        headlineText: String,
-        bodyText: String,
-        buttonText: String,
-        buttonLoading: Bool? = false,
-        dragEnabled: Bool? = true,
-        buttonAction: @escaping () -> Void,
-        dragDismissAction: (() -> Void)? = {},
-        backgroundTapAction: (() -> Void)? = {}
-    ) {
-        self.headerView = AnyView(headerView)
-        self.headlineText = headlineText
-        self.bodyText  = bodyText
-        self.buttonText = buttonText
-        self.buttonActive = buttonLoading!
-        self.dragEnabled = dragEnabled!
-        self.buttonAction = buttonAction
-        self.dragDismissAction = dragDismissAction!
-        self.backgroundTapAction = backgroundTapAction!
+        
+        self.dragEnabled = dragEnabled
+        self.dragDismissAction = dragDismissAction
+        
+        self.backgroundFill = backgroundFill
+        self.backgroundTapAction = backgroundTapAction
+        
     }
     
     // View Body
@@ -107,35 +95,30 @@ public struct PopcornMessagePrompt: View {
 
         VStack(spacing: 20) {
 
-            if headerView != nil {
-                ZStack {
-                    headerView
-                }
-                .frame(height: 80)
-            }
+            headerImage.frame(height: 80)
             
             PopupElementHeadlineText(
-                text: headlineText,
-                color: popcorn.popupStyle.colors.textColor,
+                text: headerText,
+                color: headerTextColor,
                 lineLimit: 4
             )
 
             PopupElementBodyText(
                 text: bodyText,
-                color: popcorn.popupStyle.colors.textColor,
+                color: bodyTextColor,
                 lineLimit: 4
             )
 
             PopupElementButton(
                 buttonText: buttonText,
-                buttonActive: buttonActive,
-                buttonColor: popcorn.popupStyle.colors.buttonColorPrimary,
-                buttonTextColor: popcorn.popupStyle.colors.buttonTextColor,
+                buttonActive: buttonLoading,
+                buttonFill: buttonFill,
+                buttonTextColor: buttonTextColor,
                 buttonAction: buttonAction
             )
 
         }
-        .padding(20)
+        .padding(40)
 
     }
     

@@ -11,7 +11,8 @@ public struct PopcornPacket<Content: PopcornProtocol> {
     let popups: Content
     
     /// A container for popcorn popups.
-    /// - Parameter popups: The app's popups.
+    /// - Parameters:
+    ///   - popups: The app's popups.
     public init(@PopcornBuilder popups: () -> Content) {
         self.popups = popups()
     }

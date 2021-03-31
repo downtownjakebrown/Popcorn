@@ -42,20 +42,32 @@ public class Popcorn: ObservableObject {
 
             let popupFormat: PopupFormat
 
-            switch popups.popups.types[i] {
-
-                case is PopcornButtonsPrompt.Type: popupFormat = .prompt
-                case is PopcornGetTextPrompt.Type: popupFormat = .prompt
-                case is PopcornMessagePrompt.Type: popupFormat = .prompt
-                case is PopcornMessageBanner.Type:   popupFormat = .banner
-
-                default: print(
-                    "Could not add popcorn popup \"\(popups.popups.types[i])\" " +
-                    "because its body type does not match a valid " +
-                    "popcorn popup type."
+            let typeString = String(describing: popups.popups.types[i])
+            
+            if typeString.hasPrefix("PopcornButtonsPrompt<") {
+                popupFormat = .prompt
+            }
+            else if typeString.hasPrefix("PopcornGetTextPrompt") {
+                popupFormat = .prompt
+            }
+            else if typeString.hasPrefix("PopcornMessagePrompt<") {
+                popupFormat = .prompt
+            }
+            else if typeString.hasPrefix("PopcornMessageBanner") {
+                popupFormat = .banner
+            }
+            else {
+                print(
+                    """
+                    Could not add popcorn popup \"\(popups.popups.names[i])\" because its body type does not match a valid popcorn popup type. The body type is \(popups.popups.types[i]), but must be one of:
+                     1. PopcornButtonsPrompt
+                     2. PopcornGetTextPrompt
+                     3. PopcornMessagePrompt
+                     4. PopcornMessageBanner
+                    
+                    """
                 )
                 continue
-
             }
 
             if popupFormat == .prompt {
@@ -171,3 +183,5 @@ public class Popcorn: ObservableObject {
     }
     
 }
+
+public let PopcornPreview = Popcorn(PopcornPacket{}, PopcornSeasoning())

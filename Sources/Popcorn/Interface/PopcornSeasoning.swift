@@ -15,7 +15,7 @@ public struct PopcornSeasoning {
     ///   - corners: The corner style of the app's popups
     ///   - colors: The colors used by the app's popups
     public init(
-        corners: PopcornCornerStyle = .rounded,
+        corners: PopcornCornerStyle = .capsule,
         colors: PopcornColorScheme = PopcornColorScheme()
     ) {
         self.corners = corners

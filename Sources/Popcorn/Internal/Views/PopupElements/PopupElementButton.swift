@@ -4,11 +4,11 @@
 
 import SwiftUI
 
-struct PopupElementButton: View {
+struct PopupElementButton<ButtonFill>: View where ButtonFill: ShapeStyle {
     
     let buttonText: String
     let buttonActive: Bool
-    let buttonColor: Color
+    let buttonFill: ButtonFill
     let buttonTextColor: Color
     let buttonAction: () -> Void
     
@@ -24,7 +24,7 @@ struct PopupElementButton: View {
                     cornerRadius: cornerRadius,
                     style: .continuous
                 )
-                .fill(buttonColor)
+                .fill(buttonFill)
                 .opacity(!buttonActive ? 1.0 : 0.7)
                 
                 if self.buttonActive {

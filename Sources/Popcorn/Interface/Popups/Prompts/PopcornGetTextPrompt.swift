@@ -171,7 +171,7 @@ public struct PopcornGetTextPrompt: View {
             PopupElementButton(
                 buttonText: buttonText,
                 buttonActive: self.buttonActive,
-                buttonColor: popcorn.popupStyle.colors.buttonColorPrimary,
+                buttonFill: popcorn.popupStyle.colors.buttonColorPrimary,
                 buttonTextColor: popcorn.popupStyle.colors.buttonTextColor,
                 buttonAction: self.buttonAction
             )
