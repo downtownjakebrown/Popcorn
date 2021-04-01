@@ -6,35 +6,27 @@ import SwiftUI
 
 struct BannerElementMessage: View {
     
-    let expandBanner: Bool
-    let messageText: String
-    let messageTextColor: Color
+    let bannerExpanded: Bool
+    let bodyText: String
+    let bodyTextColor: Color
     
     @State private var messageAreaWidth: CGFloat = 0
     private let collapsedLineLimit: Int = 3
-    private let expandedLineLimit: Int = 100
-    
-    private let fontSize: CGFloat = 14
-    private var messageTextFont: Font {
-        Font.system(size: fontSize, weight: .regular)
-    }
-    private var messageTextUIFont: UIFont {
-        UIFont.systemFont(ofSize: fontSize, weight: .regular)
-    }
+    private let expandedLineLimit: Int = 10
     
     var body: some View {
         HStack() {
-            Text(messageText + "\n")
+            Text(bodyText + "\n")
             .fixedSize(horizontal: false, vertical: true)
-            .font(messageTextFont)
-            .foregroundColor(messageTextColor)
+            .font(.popcornBody)
+            .foregroundColor(bodyTextColor)
             .multilineTextAlignment(.leading)
-            .lineLimit((expandBanner ? expandedLineLimit : collapsedLineLimit + 1))
+            .lineLimit((bannerExpanded ? expandedLineLimit : collapsedLineLimit + 1))
                 
             Spacer(minLength: 0)
         }
         .background(WidthGetter(width: $messageAreaWidth))
-        .frame(height: getHeight(for: (expandBanner ? expandedLineLimit : collapsedLineLimit)), alignment: .top)
+        .frame(height: getHeight(for: (bannerExpanded ? expandedLineLimit : collapsedLineLimit)), alignment: .top)
         .clipped()
     }
     
@@ -47,8 +39,8 @@ struct BannerElementMessage: View {
         let label: UILabel = UILabel(frame: frame)
         label.numberOfLines = lines
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = messageTextUIFont
-        label.text = messageText
+        label.font = Font.popcornBodyUIFont
+        label.text = bodyText
         label.sizeToFit()
         return label.frame.height
    }

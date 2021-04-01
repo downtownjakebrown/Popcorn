@@ -14,7 +14,7 @@ struct BannerElementHeadline: View {
     var body: some View {
         HStack {
             Text(headlineText)
-            .font(headlineTextFont)
+            .font(.popcornBodyBold)
             .foregroundColor(headlineTextColor)
             .multilineTextAlignment(.leading)
             .lineLimit(1)

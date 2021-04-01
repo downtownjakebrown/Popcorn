@@ -4,91 +4,94 @@
 
 import SwiftUI
 
-/// A banner for displaying a short message.
-public struct PopcornMessageBanner: View {
+/// A drop down banner for displaying a message.
+public struct PopcornMessageBanner<HeaderImage, BannerFill>: View where HeaderImage: View, BannerFill: ShapeStyle {
     
-    // Environment
+    // Environmental view model
     @EnvironmentObject var popcorn: Popcorn
     
-    // Header View
-    private let headerImage: AnyView?
-    
-    // Text Data
+    // Header
+    private let headerImage: HeaderImage
     private let headerTextLeft: String
     private let headerTextRight: String
+    private let headerTextColor: Color
+    
+    // Headline
     private let headlineText: String
-    private let messageText: String
+    private let headlineTextColor: Color
     
-    // Banner State
-    private let expandBanner: Bool
+    // Body
+    private let bodyText: String
+    private let bodyTextColor: Color
+
+    // Drag Gesture
     private let dragEnabled: Bool
-    
-    // Action Closures
     private let dragDismissAction: () -> Void
-    private let tapAction: () -> Void
     
-    /// A banner for displaying a short message.
-    /// - Parameters:
-    ///   - headerTextLeft: The left-aligned text of the header.
-    ///   - headerTextRight: The right-aligned text of the header.
-    ///   - headlineText: The headline message on the prompt.
-    ///   - messageText: The body message on the prompt.
-    ///   - expandBanner: Whether or not the popup is expanded.
-    ///   - dragEnabled: Whether or not the popup may be dragged.
-    ///   - dragDismissAction: A closure executed when the popup is dragged down past a threshold.
-    ///   - tapAction: A closure executed when the banner is tapped.
-    public init(
-        headerTextLeft: String = "",
-        headerTextRight: String = "",
-        headlineText: String,
-        messageText: String,
-        expandBanner: Bool = false,
-        dragEnabled: Bool = true,
-        dragDismissAction: @escaping () -> Void = {},
-        tapAction: @escaping () -> Void = {}
-    ) {
-        self.headerImage = nil
-        self.headerTextLeft = headerTextLeft
-        self.headerTextRight = headerTextRight
-        self.headlineText = headlineText
-        self.messageText = messageText
-        self.expandBanner = expandBanner
-        self.dragEnabled = dragEnabled
-        self.dragDismissAction = dragDismissAction
-        self.tapAction = tapAction
-    }
-    
+    // Background
+    private let bannerFill: BannerFill
+    private let bannerExpanded: Bool
+    private let bannerTapAction: () -> Void
+
     /// A banner for displaying a short message.
     /// - Parameters:
     ///   - headerImage: A view for displaying illustrated content in the header.
     ///   - headerTextLeft: The left-aligned text of the header.
     ///   - headerTextRight: The right-aligned text of the header.
-    ///   - headlineText: The headline message on the prompt.
-    ///   - messageText: The body message on the prompt.
-    ///   - expandBanner: Whether or not the popup is expanded.
+    ///   - headerTextColor: The color of the header text.
+    ///
+    ///   - headlineText: The headline message text.
+    ///   - headlineTextColor: The color of the headline text.
+    ///
+    ///   - bodyText: The body message text.
+    ///   - bodyTextColor: The color of the body text.
+    ///
     ///   - dragEnabled: Whether or not the popup may be dragged.
-    ///   - dragDismissAction: A closure executed when the popup is dragged down past a threshold.
-    ///   - tapAction: A closure executed when the banner is tapped.
-    public init<Content: View>(
-        headerImage: Content,
-        headerTextLeft: String = "",
-        headerTextRight: String = "",
+    ///   - dragDismissAction: A closure executed when the popup is dragged upward past a threshold.
+    ///
+    ///   - bannerFill: The background fill style.
+    ///   - bannerExpanded: Whether or not the popup is expanded.
+    ///   - bannerTapAction: A closure executed when the banner is tapped.
+    public init(
+        
+        headerImage: HeaderImage,
+        headerTextLeft: String,
+        headerTextRight: String,
+        headerTextColor: Color,
+            
         headlineText: String,
-        messageText: String,
-        expandBanner: Bool = false,
-        dragEnabled: Bool = true,
-        dragDismissAction: @escaping () -> Void = {},
-        tapAction: @escaping () -> Void = {}
+        headlineTextColor: Color,
+        
+        bodyText: String,
+        bodyTextColor: Color,
+
+        dragEnabled: Bool,
+        dragDismissAction: @escaping () -> Void,
+        
+        bannerFill: BannerFill,
+        bannerExpanded: Bool,
+        bannerTapAction: @escaping () -> Void
+        
     ) {
-        self.headerImage = AnyView(headerImage)
+        
+        self.headerImage = headerImage
         self.headerTextLeft = headerTextLeft
         self.headerTextRight = headerTextRight
+        self.headerTextColor = headerTextColor
+        
         self.headlineText = headlineText
-        self.messageText = messageText
-        self.expandBanner = expandBanner
+        self.headlineTextColor = headlineTextColor
+        
+        self.bodyText = bodyText
+        self.bodyTextColor = bodyTextColor
+        
         self.dragEnabled = dragEnabled
         self.dragDismissAction = dragDismissAction
-        self.tapAction = tapAction
+        
+        self.bannerFill = bannerFill
+        self.bannerExpanded = bannerExpanded
+        self.bannerTapAction = bannerTapAction
+        
     }
     
     // View Body
@@ -96,9 +99,10 @@ public struct PopcornMessageBanner: View {
         VStack(spacing: 0) {
             BannerElementTopSpacer()
             BannerContainer(
+                bannerFill: bannerFill,
                 dragEnabled: dragEnabled,
                 dragDismissAction: dragDismissAction,
-                tapAction: tapAction
+                tapAction: bannerTapAction
             ) {
                 bannerContentBuilder
             }
@@ -112,17 +116,17 @@ public struct PopcornMessageBanner: View {
                 headerImage: headerImage,
                 headerTextLeft: headerTextLeft,
                 headerTextRight: headerTextRight,
-                headerTextColor: .gray
+                headerTextColor: headerTextColor
             )
             VStack(spacing: 2) {
                 BannerElementHeadline(
                     headlineText: headlineText,
-                    headlineTextColor: .black
+                    headlineTextColor: headlineTextColor
                 )
                 BannerElementMessage(
-                    expandBanner: expandBanner,
-                    messageText: messageText,
-                    messageTextColor: .black
+                    bannerExpanded: bannerExpanded,
+                    bodyText: bodyText,
+                    bodyTextColor: bodyTextColor
                 )
             }
         }.padding(10)

@@ -4,31 +4,30 @@
 
 import SwiftUI
 
-struct BannerElementHeader: View {
+struct BannerElementHeader<HeaderImage>: View where HeaderImage: View {
     
-    let headerImage: AnyView?
+    let headerImage: HeaderImage
     let headerTextLeft: String
     let headerTextRight: String
     let headerTextColor: Color
-    
-    private let headerTextFont = Font.system(size: 12, weight: .medium)
 
     var body: some View {
         HStack {
-            if headerImage != nil {
-                headerImage
-                .frame(width: 20, height: 20)
-            }
+            
+            headerImage.frame(width: 15, height: 15)
+            
             if headerTextLeft != "" {
                 Text(headerTextLeft)
-                .font(headerTextFont)
+                .font(Font.system(size: 12, weight: .medium))
                 .foregroundColor(headerTextColor)
+                .offset(y: 2)
             }
             Spacer()
             if headerTextRight != "" {
                 Text(headerTextRight)
-                .font(headerTextFont)
+                .font(Font.system(size: 12, weight: .medium))
                 .foregroundColor(headerTextColor)
+                .offset(y: 2)
             }
         }
         

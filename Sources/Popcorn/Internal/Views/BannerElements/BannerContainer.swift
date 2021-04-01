@@ -4,7 +4,9 @@
 
 import SwiftUI
 
-struct BannerContainer<BannerContent>: View where BannerContent: View {
+struct BannerContainer<BannerContent, BannerFill>: View where BannerContent: View, BannerFill: ShapeStyle {
+    
+    private let bannerFill: BannerFill
     
     private let dragEnabled: Bool
     private let dragDismissAction: () -> Void
@@ -18,11 +20,13 @@ struct BannerContainer<BannerContent>: View where BannerContent: View {
     private let dragDismissThreshold: CGFloat = 60
 
     init(
+        bannerFill: BannerFill,
         dragEnabled: Bool = true,
         dragDismissAction: @escaping () -> Void = {},
         tapAction: @escaping () -> Void = {},
         content: @escaping () -> BannerContent
     ){
+        self.bannerFill = bannerFill
         self.dragEnabled = dragEnabled
         self.dragDismissAction = dragDismissAction
         self.tapAction = tapAction
@@ -32,7 +36,7 @@ struct BannerContainer<BannerContent>: View where BannerContent: View {
     var body: some View {
         content()
         .background(
-            BannerElementBackdrop()
+            BannerElementBackdrop(bannerFill: bannerFill)
         )
         .frame(maxWidth: maxBannerWidth)
         .padding(.horizontal, minHorizontalPadding)

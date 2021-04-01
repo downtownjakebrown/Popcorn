@@ -47,7 +47,7 @@ public class Popcorn: ObservableObject {
                 popupFormat = .prompt
             } else if typeString.hasPrefix("PopcornMessagePrompt<") {
                 popupFormat = .prompt
-            } else if typeString.hasPrefix("PopcornMessageBanner") {
+            } else if typeString.hasPrefix("PopcornMessageBanner<") {
                 popupFormat = .banner
             } else {
                 print("Could not add popcorn popup \"\(popups.popups.names[i])\" because its body type does not match a valid popcorn popup type.")

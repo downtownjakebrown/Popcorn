@@ -4,16 +4,18 @@
 
 import SwiftUI
 
-struct BannerElementBackdrop: View {
+struct BannerElementBackdrop<BannerFill>: View where BannerFill: ShapeStyle {
 
     @EnvironmentObject var popcorn: Popcorn
+    
+    let bannerFill: BannerFill
     
     var body: some View {
         RoundedRectangle(
             cornerRadius: 15,
             style: .continuous
         )
-        .fill(Color.white)
+        .fill(bannerFill)
         .shadow(radius: 5)
     }
     
