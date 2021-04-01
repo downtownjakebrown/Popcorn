@@ -4,14 +4,10 @@
 
 import SwiftUI
 
-protocol PopupFormatProtocol {
-    static var presentationStyle: PopupFormat { get }
-}
-
 /// A popup prompt with two buttons.
 public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, BackgroundFill>: View where HeaderImage: View, Button1Fill: ShapeStyle, Button2Fill: ShapeStyle, BackgroundFill: ShapeStyle {
     
-    // Environment
+    // Environmental view model
     @EnvironmentObject var popcorn: Popcorn
     
     // Header
@@ -33,7 +29,10 @@ public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, Backgr
     private let button2Loading: Bool
     private let button2Action: () -> Void
     
-    // Dragging
+    // Button Style
+    private let buttonStyle: ButtonArrangement
+    
+    // Drag Gesture
     private let dragEnabled: Bool
     private let dragDismissAction: () -> Void
     
@@ -41,7 +40,31 @@ public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, Backgr
     private let backgroundFill: BackgroundFill
     private let backgroundTapAction: () -> Void
     
-    // ...
+    /// A popup prompt for displaying a short message.
+    /// - Parameters:
+    ///   - headerImage: The illustrated content at the top of the prompt.
+    ///   - headerText: The header message text.
+    ///   - headerTextColor: The color of the header message text.
+    ///
+    ///   - button1Text: The button label text.
+    ///   - button1TextColor: The color of the button label text.
+    ///   - button1Fill: The button's fill style.
+    ///   - button1Loading: The loading state of the button. If true, the button is disabled and an activity icon is shown.
+    ///   - button1Action: A closure exectued when the button is tapped.
+    ///
+    ///   - button2Text: The button label text.
+    ///   - button2TextColor: The color of the button label text.
+    ///   - button2Fill: The button's fill style.
+    ///   - button2Loading: The loading state of the button. If true, the button is disabled and an activity icon is shown.
+    ///   - button2Action: A closure exectued when the button is tapped.
+    ///
+    ///   - buttonStyle: The style and arrangement of the buttons.
+    ///
+    ///   - dragEnabled: Whether or not the popup may be dragged.
+    ///   - dragDismissAction: A closure executed when the popup is dragged down past a threshold.
+    ///
+    ///   - backgroundFill: The background fill style.
+    ///   - backgroundTapAction: A closure executed when the background surrounding the popup is tapped.
     public init(
         
         headerImage: HeaderImage,
@@ -59,6 +82,8 @@ public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, Backgr
         button2Fill: Button2Fill,
         button2Loading: Bool = false,
         button2Action: @escaping () -> Void,
+        
+        buttonStyle: ButtonArrangement,
         
         dragEnabled: Bool = true,
         dragDismissAction: @escaping () -> Void = {},
@@ -84,6 +109,8 @@ public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, Backgr
         self.button2Loading = button2Loading
         self.button2Action = button2Action
         
+        self.buttonStyle = buttonStyle
+        
         self.dragEnabled = dragEnabled
         self.dragDismissAction = dragDismissAction
         
@@ -102,56 +129,48 @@ public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, Backgr
             popupContentBuilder
         }
     }
-
+    
     // Convenience Content Builder
     private var popupContentBuilder: some View {
         
-        VStack(spacing: 20) {
-            
-            headerImage.frame(height: 80)
-            
+        VStack(spacing: 25) {
+
+            headerImage.frame(height: 110)
+                
             PopupElementHeadlineText(
                 text: headerText,
-                color: popcorn.popupStyle.colors.textColor,
+                color: headerTextColor,
                 lineLimit: 4
             )
-            
-            VStack(spacing: 7) {
+             
+            VStack(spacing: 15) {
+                
                 PopupElementButton(
-                    buttonText: self.button1Text,
-                    buttonActive: self.button1Loading,
+                    buttonText: button1Text,
+                    buttonActive: button1Loading,
                     buttonFill: button1Fill,
-                    buttonTextColor: popcorn.popupStyle.colors.buttonTextColor,
-                    buttonAction: self.button1Action
+                    buttonTextColor: button1TextColor,
+                    buttonAction: button1Action
                 )
                 
                 PopupElementButton(
-                    buttonText: self.button2Text,
-                    buttonActive: self.button2Loading,
+                    buttonText: button2Text,
+                    buttonActive: button2Loading,
                     buttonFill: button2Fill,
-                    buttonTextColor: popcorn.popupStyle.colors.buttonTextColor,
-                    buttonAction: self.button2Action
+                    buttonTextColor: button2TextColor,
+                    buttonAction: button2Action
                 )
+                
             }
             
-        }
-        .padding(20)
+        }.padding(35)
         
     }
     
+    public enum ButtonArrangement {
+        case verticalStack
+        case horizontalStack
+        case bottom
+    }
+    
 }
-
-
-/// A popup prompt with two buttons.
-/// - Parameters:
-///   - headerView: A view for displaying illustrated content at the top of the prompt.
-///   - headlineText: The headline message on the prompt.
-///   - button1Text: The text label of the top-most button.
-///   - button2Text: The text label of the bottom-most button.
-///   - button1Loading: The state of the top-most button. When true, an activity indicator is shown and the button is disabled.
-///   - button2Loading: The state of the bottom-most button. When true, an activity indicator is shown and the button is disabled.
-///   - dragEnabled: Whether or not the popup may be dragged.
-///   - button1Action: A closure exectued when the top-most button is tapped.
-///   - button2Action: A closure exectued when the bottom-most button is tapped.
-///   - dragDismissAction: A closure executed when the popup is dragged down past a threshold.
-///   - backgroundTapAction: A closure executed when the background surrounding the popup is tapped.

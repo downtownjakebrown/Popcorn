@@ -12,7 +12,7 @@ struct PopupElementHeadlineText: View {
     
     var body: some View {
         Text(text)
-        .font(.headline)
+        .font(.popcornHeader)
         .multilineTextAlignment(.center)
         .lineLimit(lineLimit)
         .foregroundColor(color)

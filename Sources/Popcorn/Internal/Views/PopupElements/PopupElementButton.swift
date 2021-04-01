@@ -26,13 +26,14 @@ struct PopupElementButton<ButtonFill>: View where ButtonFill: ShapeStyle {
                 )
                 .fill(buttonFill)
                 .opacity(!buttonActive ? 1.0 : 0.7)
+                .shadow(color: Color.gray.opacity(0.2), radius: 5)
                 
                 if self.buttonActive {
                     PopupElementLoadingIndicator(color: .white)
                     .transition(AnyTransition.opacity.animation(.default))
                 } else {
                     Text(self.buttonText)
-                    .font(.subheadline)
+                    .font(.popcornButton)
                     .bold()
                     .foregroundColor(buttonTextColor)
                     .transition(AnyTransition.opacity.animation(.default))
