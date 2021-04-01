@@ -5,131 +5,123 @@
 import SwiftUI
 
 /// A popup prompt for getting user-input text.
-public struct PopcornGetTextPrompt: View {
+public struct PopcornGetTextPrompt<HeaderImage, ButtonFill, BackgroundFill>: View where HeaderImage: View, ButtonFill: ShapeStyle, BackgroundFill: ShapeStyle  {
     
-    // Environment
+    // Environmental view model
     @EnvironmentObject var popcorn: Popcorn
     
-    // Header View
-    private let headerView: AnyView?
+    // Header
+    private let headerImage: HeaderImage
+    private let headerText: String
+    private let headerTextColor: Color
     
     // Text Data
     @Binding var textFieldInput: String
-    private let headlineText: String
     private let textFieldPlaceholderText: String
-    private let buttonText: String
-    private let keyboardType: UIKeyboardType
-    
-    // Popup State
-    private let buttonActive: Bool
-    private let dragEnabled: Bool
-    
-    // Action Closures
+    private let textFieldTextColor: Color
     private let textFieldOnChangeState: (Bool) -> Void
     private let textFieldOnChangeText: () -> Void
     private let textFieldOnCommitText: () -> Void
+    private let textFieldKeyboardType: UIKeyboardType
+    
+    // Button
+    private let buttonText: String
+    private let buttonTextColor: Color
+    private let buttonFill: ButtonFill
+    private let buttonLoading: Bool
     private let buttonAction: () -> Void
+    
+    // Drag Gesture
+    private let dragEnabled: Bool
     private let dragDismissAction: () -> Void
+    
+    // Background
+    private let backgroundFill: BackgroundFill
     private let backgroundTapAction: () -> Void
     
-    /// A popup prompt for getting user-input text.
+    /// A popup prompt for displaying a short message.
     /// - Parameters:
-    ///   - headlineText: The headline message on the prompt.
-    ///   - textFieldPlaceholderText: The placeholder text shown in the text field.
-    ///   - textFieldInput: The user-input text from the text field.
-    ///   - keyboardType: The keyboard type shown when the text field is edited
-    ///   - buttonText: The text label of the button.
-    ///   - buttonLoading: The state of the button. When true, an activity indicator is shown and the button is disabled.
-    ///   - dragEnabled: Whether or not the popup may be dragged.
-    ///   - textFieldOnChangeState: A closure exectued when the text field changes editing state.
-    ///   - textFieldOnChangeText: A closure exectued when the user-input text of the text field changes.
-    ///   - textFieldOnCommitText: A closure exectued when the user commits the text of the text field.
+    ///   - headerImage: The illustrated content at the top of the prompt.
+    ///   - headerText: The header message text.
+    ///   - headerTextColor: The color of the header message text.
+    ///
+    ///   - textFieldInput: The user-input text.
+    ///   - textFieldPlaceholderText: The placeholder text.
+    ///   - textFieldTextColor: The color of the textField text.
+    ///   - textFieldOnChangeState: A closure exectued when the state of the textField changes.
+    ///   - textFieldOnChangeText: A closure exectued when the textField text changes.
+    ///   - textFieldOnCommitText: A closure exectued when the textField text is committed.
+    ///   - textFieldKeyboardType: The type of software keyboard shown while the textField is edited.
+    ///
+    ///   - buttonText: The button label text.
+    ///   - buttonTextColor: The color of the button label text.
+    ///   - buttonFill: The button's fill style.
+    ///   - buttonLoading: The loading state of the button. If true, the button is disabled and an activity icon is shown.
     ///   - buttonAction: A closure exectued when the button is tapped.
+    ///
+    ///   - dragEnabled: Whether or not the popup may be dragged.
     ///   - dragDismissAction: A closure executed when the popup is dragged down past a threshold.
+    ///
+    ///   - backgroundFill: The background fill style.
     ///   - backgroundTapAction: A closure executed when the background surrounding the popup is tapped.
     public init(
-        headlineText: String,
-        textFieldPlaceholderText: String,
+        
+        headerImage: HeaderImage,
+        headerText: String,
+        headerTextColor: Color,
+        
         textFieldInput: Binding<String>,
-        keyboardType: UIKeyboardType? = .default,
-        buttonText: String,
-        buttonLoading: Bool? = false,
-        dragEnabled: Bool? = true,
-        textFieldOnChangeState: ((Bool) -> Void)? = { _ in },
-        textFieldOnChangeText: (() -> Void)? = {},
-        textFieldOnCommitText: (() -> Void)? = {},
-        buttonAction: @escaping () -> Void,
-        dragDismissAction: (() -> Void)? = {},
-        backgroundTapAction: (() -> Void)? = {}
-    ) {
-        self.headerView = nil
-        self._textFieldInput = textFieldInput
-        self.headlineText = headlineText
-        self.textFieldPlaceholderText = textFieldPlaceholderText
-        self.keyboardType = keyboardType!
-        self.buttonText = buttonText
-        self.buttonActive = buttonLoading!
-        self.textFieldOnChangeState = textFieldOnChangeState!
-        self.textFieldOnChangeText = textFieldOnChangeText!
-        self.textFieldOnCommitText = textFieldOnCommitText!
-        self.buttonAction = buttonAction
-        self.dragEnabled = dragEnabled!
-        self.dragDismissAction = dragDismissAction!
-        self.backgroundTapAction = backgroundTapAction!
-    }
-    
-    /// A popup prompt for getting user-input text.
-    /// 
-    /// - Parameters:
-    ///   - headerView: A view for displaying illustrated content at the top of the prompt.
-    ///   - headlineText: The headline message on the prompt.
-    ///   - textFieldPlaceholderText: The placeholder text shown in the text field.
-    ///   - textFieldInput: The user-input text from the text field.
-    ///   - keyboardType: The keyboard type shown when the text field is edited
-    ///   - buttonText: The text label of the button.
-    ///   - buttonLoading: The state of the button. When true, an activity indicator is shown and the button is disabled.
-    ///   - dragEnabled: Whether or not the popup may be dragged.
-    ///   - textFieldOnChangeState: A closure exectued when the text field changes editing state.
-    ///   - textFieldOnChangeText: A closure exectued when the user-input text of the text field changes.
-    ///   - textFieldOnCommitText: A closure exectued when the user commits the text of the text field.
-    ///   - buttonAction: A closure exectued when the button is tapped.
-    ///   - dragDismissAction: A closure executed when the popup is dragged down past a threshold.
-    ///   - backgroundTapAction: A closure executed when the background surrounding the popup is tapped.
-    public init<Content: View>(
-        headerView: Content,
-        headlineText: String,
         textFieldPlaceholderText: String,
-        textFieldInput: Binding<String>,
-        keyboardType: UIKeyboardType? = .default,
+        textFieldTextColor: Color,
+        textFieldOnChangeState: @escaping (_ newState: Bool) -> Void,
+        textFieldOnChangeText: @escaping () -> Void,
+        textFieldOnCommitText: @escaping () -> Void,
+        textFieldKeyboardType: UIKeyboardType,
+        
         buttonText: String,
-        buttonLoading: Bool? = false,
-        dragEnabled: Bool? = true,
-        textFieldOnChangeState: Optional<(_ newState: Bool) -> Void> = { _ in },
-        textFieldOnChangeText: (() -> Void)? = {},
-        textFieldOnCommitText: (() -> Void)? = {},
+        buttonTextColor: Color,
+        buttonFill: ButtonFill,
+        buttonLoading: Bool,
         buttonAction: @escaping () -> Void,
-        dragDismissAction: (() -> Void)? = {},
-        backgroundTapAction: (() -> Void)? = {}
+ 
+        dragEnabled: Bool,
+        dragDismissAction: @escaping () -> Void,
+        
+        backgroundFill: BackgroundFill,
+        backgroundTapAction: @escaping () -> Void
+        
     ) {
-        self.headerView = AnyView(headerView)
+       
+        self.headerImage = headerImage
+        self.headerText = headerText
+        self.headerTextColor = headerTextColor
+        
         self._textFieldInput = textFieldInput
-        self.headlineText = headlineText
         self.textFieldPlaceholderText = textFieldPlaceholderText
-        self.keyboardType = keyboardType!
+        self.textFieldTextColor = textFieldTextColor
+        self.textFieldOnChangeState = textFieldOnChangeState
+        self.textFieldOnChangeText = textFieldOnChangeText
+        self.textFieldOnCommitText = textFieldOnCommitText
+        self.textFieldKeyboardType = textFieldKeyboardType
+        
         self.buttonText = buttonText
-        self.buttonActive = buttonLoading!
-        self.textFieldOnChangeState = textFieldOnChangeState!
-        self.textFieldOnChangeText = textFieldOnChangeText!
-        self.textFieldOnCommitText = textFieldOnCommitText!
+        self.buttonTextColor = buttonTextColor
+        self.buttonFill = buttonFill
+        self.buttonLoading = buttonLoading
         self.buttonAction = buttonAction
-        self.dragEnabled = dragEnabled!
-        self.dragDismissAction = dragDismissAction!
-        self.backgroundTapAction = backgroundTapAction!
+ 
+        self.dragEnabled = dragEnabled
+        self.dragDismissAction = dragDismissAction
+        
+        self.backgroundFill = backgroundFill
+        self.backgroundTapAction = backgroundTapAction
+        
     }
-    
+
     // View Body
     public var body: some View {
         PopupContainer(
+            backgroundFill: backgroundFill,
             dragEnabled: dragEnabled,
             dragDismissAction: dragDismissAction,
             backgroundTapAction: backgroundTapAction,
@@ -142,42 +134,35 @@ public struct PopcornGetTextPrompt: View {
     // Convenience Content Builder
     private var popupContentBuilder: some View {
         
-        VStack(spacing: 20) {
+        VStack(spacing: 25) {
             
-            if headerView != nil {
-                ZStack {
-                    headerView
-                }
-                .frame(height: 80)
-            }
+            headerImage.frame(height: 90)
             
             PopupElementHeadlineText(
-                text: headlineText,
-                color: popcorn.popupStyle.colors.textColor,
+                text: headerText,
+                color: headerTextColor,
                 lineLimit: 4
             )
             
             PopupElementTextField(
                 textFieldInput: $textFieldInput,
                 textFieldPlaceholderText: textFieldPlaceholderText,
-                textColor: popcorn.popupStyle.colors.textColor,
-                keyboardType: keyboardType,
+                textColor: textFieldTextColor,
+                keyboardType: textFieldKeyboardType,
                 onChangeState: textFieldOnChangeState,
                 onChangeText: textFieldOnChangeText,
                 onCommitText: textFieldOnCommitText
-            )
-            .padding([.horizontal, .bottom], 10)
+            ).padding([.horizontal, .bottom], 10)
             
             PopupElementButton(
                 buttonText: buttonText,
-                buttonActive: self.buttonActive,
-                buttonFill: popcorn.popupStyle.colors.buttonColorPrimary,
-                buttonTextColor: popcorn.popupStyle.colors.buttonTextColor,
-                buttonAction: self.buttonAction
+                buttonActive: buttonLoading,
+                buttonFill: buttonFill,
+                buttonTextColor: buttonTextColor,
+                buttonAction: buttonAction
             )
             
-        }
-        .padding(20)
+        }.padding(35)
         
     }
     

@@ -69,27 +69,27 @@ public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, Backgr
         
         headerImage: HeaderImage,
         headerText: String,
-        headerTextColor: Color = .black,
+        headerTextColor: Color,
         
         button1Text: String,
-        button1TextColor: Color = .white,
+        button1TextColor: Color,
         button1Fill: Button1Fill,
-        button1Loading: Bool = false,
+        button1Loading: Bool,
         button1Action: @escaping () -> Void,
         
         button2Text: String,
-        button2TextColor: Color = .white,
+        button2TextColor: Color,
         button2Fill: Button2Fill,
-        button2Loading: Bool = false,
+        button2Loading: Bool,
         button2Action: @escaping () -> Void,
         
         buttonStyle: ButtonArrangement,
         
-        dragEnabled: Bool = true,
-        dragDismissAction: @escaping () -> Void = {},
+        dragEnabled: Bool,
+        dragDismissAction: @escaping () -> Void,
         
         backgroundFill: BackgroundFill,
-        backgroundTapAction: @escaping () -> Void = {}
+        backgroundTapAction: @escaping () -> Void
         
     ) {
         
@@ -122,6 +122,7 @@ public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, Backgr
     // View Body
     public var body: some View {
         PopupContainer(
+            backgroundFill: backgroundFill,
             dragEnabled: dragEnabled,
             dragDismissAction: dragDismissAction,
             backgroundTapAction: backgroundTapAction
@@ -135,42 +136,139 @@ public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, Backgr
         
         VStack(spacing: 25) {
 
-            headerImage.frame(height: 110)
-                
+            headerImage
+            .frame(height: 90)
+            .padding(.horizontal, 35)
+            
             PopupElementHeadlineText(
                 text: headerText,
                 color: headerTextColor,
                 lineLimit: 4
-            )
-             
-            VStack(spacing: 15) {
+            ).padding(.horizontal, 35)
+            
+            if buttonStyle == .verticalStack {
                 
-                PopupElementButton(
-                    buttonText: button1Text,
-                    buttonActive: button1Loading,
-                    buttonFill: button1Fill,
-                    buttonTextColor: button1TextColor,
-                    buttonAction: button1Action
-                )
+                VStack(spacing: 10) {
+                    PopupElementButton(
+                        buttonText: button1Text,
+                        buttonActive: button1Loading,
+                        buttonFill: button1Fill,
+                        buttonTextColor: button1TextColor,
+                        buttonAction: button1Action
+                    )
+                    PopupElementButton(
+                        buttonText: button2Text,
+                        buttonActive: button2Loading,
+                        buttonFill: button2Fill,
+                        buttonTextColor: button2TextColor,
+                        buttonAction: button2Action
+                    )
+                }.padding([.horizontal, .bottom], 35)
                 
-                PopupElementButton(
-                    buttonText: button2Text,
-                    buttonActive: button2Loading,
-                    buttonFill: button2Fill,
-                    buttonTextColor: button2TextColor,
-                    buttonAction: button2Action
+            } else if buttonStyle == .bottomBar {
+                
+                PopupElementButtonBar(
+                    button1Text: button1Text,
+                    button1TextColor: button1TextColor,
+                    button1Fill: button1Fill,
+                    button1Loading: button1Loading,
+                    button1Action: button1Action,
+                    button2Text: button2Text,
+                    button2TextColor: button2TextColor,
+                    button2Fill: button2Fill,
+                    button2Loading: button2Loading,
+                    button2Action: button2Action
                 )
                 
             }
             
-        }.padding(35)
+        }.padding(.top, 35)
         
     }
     
     public enum ButtonArrangement {
         case verticalStack
-        case horizontalStack
-        case bottom
+        case bottomBar
+    }
+    
+}
+
+struct PopupElementButtonBar<Button1Fill, Button2Fill>: View where Button1Fill: ShapeStyle, Button2Fill: ShapeStyle {
+    
+    // Button 1
+    let button1Text: String
+    let button1TextColor: Color
+    let button1Fill: Button1Fill
+    let button1Loading: Bool
+    let button1Action: () -> Void
+    
+    // Button 2
+    let button2Text: String
+    let button2TextColor: Color
+    let button2Fill: Button2Fill
+    let button2Loading: Bool
+    let button2Action: () -> Void
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            PopupElementButtonBarHalf(
+                leftSide: true,
+                buttonText: button1Text,
+                buttonActive: button1Loading,
+                buttonFill: button1Fill,
+                buttonTextColor: button1TextColor,
+                buttonAction: button1Action
+            )
+            PopupElementButtonBarHalf(
+                leftSide: false,
+                buttonText: button2Text,
+                buttonActive: button2Loading,
+                buttonFill: button2Fill,
+                buttonTextColor: button2TextColor,
+                buttonAction: button2Action
+            )
+        }
+    }
+    
+}
+
+struct PopupElementButtonBarHalf<ButtonFill>: View where ButtonFill: ShapeStyle {
+    
+    let leftSide: Bool
+    let buttonText: String
+    let buttonActive: Bool
+    let buttonFill: ButtonFill
+    let buttonTextColor: Color
+    let buttonAction: () -> Void
+    
+    @EnvironmentObject var popcorn: Popcorn
+    
+    var body: some View {
+        Button(action: {
+            self.buttonAction()
+        }) {
+            ZStack {
+                
+                Rectangle()
+                .fill(buttonFill)
+                .opacity(!buttonActive ? 1.0 : 0.7)
+                .cornerRadius(radius: 25, corners: leftSide ? [.bottomLeft] : [.bottomRight])
+                
+                if self.buttonActive {
+                    PopupElementLoadingIndicator(color: .white)
+                    .transition(AnyTransition.opacity.animation(.default))
+                } else {
+                    Text(self.buttonText)
+                    .font(.popcornButton)
+                    .bold()
+                    .foregroundColor(buttonTextColor)
+                    .transition(AnyTransition.opacity.animation(.default))
+                }
+                
+            }
+        }
+        .disabled(buttonActive)
+        .frame(height: 50)
     }
     
 }

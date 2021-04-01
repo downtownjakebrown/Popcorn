@@ -21,7 +21,7 @@ struct PopupElementButton<ButtonFill>: View where ButtonFill: ShapeStyle {
             ZStack {
                 
                 RoundedRectangle(
-                    cornerRadius: cornerRadius,
+                    cornerRadius: 25,
                     style: .continuous
                 )
                 .fill(buttonFill)
@@ -43,14 +43,6 @@ struct PopupElementButton<ButtonFill>: View where ButtonFill: ShapeStyle {
         }
         .disabled(buttonActive)
         .frame(height: 50)
-    }
-    
-    var cornerRadius: CGFloat {
-        switch popcorn.popupStyle.corners {
-            case .square:  return 0
-            case .rounded: return 10
-            case .capsule: return 25
-        }
     }
     
 }

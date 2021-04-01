@@ -8,10 +8,10 @@ import Combine
 /// Popcorn's main view model, which stores your apps popups and coordinates their presentation.
 public class Popcorn: ObservableObject {
     
-    /// The popup views
-    var popupViews = [AnyView]()
-    /// The names (the view name/type) for reference to the popup views
-    var popupNames = [Any.Type]()
+    /// The prompt views
+    var promptViews = [AnyView]()
+    /// The names (the view name/type) for reference to the prompt views
+    var promptNames = [Any.Type]()
     
     /// The banner views
     var bannerViews = [AnyView]()
@@ -20,21 +20,18 @@ public class Popcorn: ObservableObject {
     
     /// Delay time between sequential popups
     let delayAmount: TimeInterval = 0.5
-    /// The style of the app's popups
-    let popupStyle: PopcornSeasoning
     
     /// Popcorn's main view model, which stores your apps popups and coordinates their presentation.
-    /// - Parameter popups: The app's popups
+    /// - Parameter popups: The app's popups.
     init<Content>(
-        _ popups: PopcornPacket<Content>,
-        _ style: PopcornSeasoning
+        _ popups: PopcornPacket<Content>
     ){
         
-        // Holders for popup views
-        var popupViews = [AnyView]()
-        var popupNames = [Any.Type]()
+        // Holders for any prompts
+        var promptViews = [AnyView]()
+        var promptNames = [Any.Type]()
         
-        // Holders for banner views
+        // Holders for any banners
         var bannerViews = [AnyView]()
         var bannerNames = [Any.Type]()
         
@@ -46,33 +43,20 @@ public class Popcorn: ObservableObject {
             
             if typeString.hasPrefix("PopcornButtonsPrompt<") {
                 popupFormat = .prompt
-            }
-            else if typeString.hasPrefix("PopcornGetTextPrompt") {
+            } else if typeString.hasPrefix("PopcornGetTextPrompt<") {
                 popupFormat = .prompt
-            }
-            else if typeString.hasPrefix("PopcornMessagePrompt<") {
+            } else if typeString.hasPrefix("PopcornMessagePrompt<") {
                 popupFormat = .prompt
-            }
-            else if typeString.hasPrefix("PopcornMessageBanner") {
+            } else if typeString.hasPrefix("PopcornMessageBanner") {
                 popupFormat = .banner
-            }
-            else {
-                print(
-                    """
-                    Could not add popcorn popup \"\(popups.popups.names[i])\" because its body type does not match a valid popcorn popup type. The body type is \(popups.popups.types[i]), but must be one of:
-                     1. PopcornButtonsPrompt
-                     2. PopcornGetTextPrompt
-                     3. PopcornMessagePrompt
-                     4. PopcornMessageBanner
-                    
-                    """
-                )
+            } else {
+                print("Could not add popcorn popup \"\(popups.popups.names[i])\" because its body type does not match a valid popcorn popup type.")
                 continue
             }
 
             if popupFormat == .prompt {
-                popupViews.append(popups.popups.views[i])
-                popupNames.append(popups.popups.names[i])
+                promptViews.append(popups.popups.views[i])
+                promptNames.append(popups.popups.names[i])
             } else if popupFormat == .banner {
                 bannerViews.append(popups.popups.views[i])
                 bannerNames.append(popups.popups.names[i])
@@ -80,14 +64,11 @@ public class Popcorn: ObservableObject {
 
         }
 
-        self.popupViews = popupViews
-        self.popupNames = popupNames
+        self.promptViews = promptViews
+        self.promptNames = promptNames
 
         self.bannerViews = bannerViews
         self.bannerNames = bannerNames
-        
-        // Add style to self
-        self.popupStyle = style
         
     }
     
@@ -184,4 +165,4 @@ public class Popcorn: ObservableObject {
     
 }
 
-public let PopcornPreview = Popcorn(PopcornPacket{}, PopcornSeasoning())
+

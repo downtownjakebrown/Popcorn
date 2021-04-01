@@ -11,7 +11,7 @@ struct PopupBackground: View {
     @State private var keyboardIsShown = false
     
     var body: some View {
-        popcorn.popupStyle.colors.backgroundColor
+        Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.3))
         .edgesIgnoringSafeArea(.all)
         .transition(.opacity)
         .keyboardObserver(

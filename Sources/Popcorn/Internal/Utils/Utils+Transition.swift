@@ -6,15 +6,12 @@ import SwiftUI
 
 extension AnyTransition {
     
+    /// A transition the popup background.
     static let popupBackgroundStyle = AnyTransition.opacity
-    static let popupStyle = AnyTransition.slideToEdge(
-        insertion: .bottom,
-        removal: .bottom
-    )
-    static let bannerStyle = AnyTransition.slideToEdge(
-        insertion: .top,
-        removal: .top
-    )
+    /// A transition for prompts.
+    static let promptStyle = AnyTransition.slideToEdge(insertion: .bottom, removal: .bottom)
+    /// A transition for banners.
+    static let bannerStyle = AnyTransition.slideToEdge(insertion: .top, removal: .top)
     
     private enum MoveDirection {
         case leading

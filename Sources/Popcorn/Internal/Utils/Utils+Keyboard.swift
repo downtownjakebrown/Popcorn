@@ -7,7 +7,7 @@ import SwiftUI
 extension View {
     
     /// Helper to hide software keyboard if shown on screen.
-    func hideKeyboard() {
+    public func hideKeyboard() {
         
         UIApplication.shared
         .sendAction(#selector(UIResponder.resignFirstResponder),

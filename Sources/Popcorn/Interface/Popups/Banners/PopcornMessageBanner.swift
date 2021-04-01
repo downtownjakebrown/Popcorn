@@ -117,12 +117,12 @@ public struct PopcornMessageBanner: View {
             VStack(spacing: 2) {
                 BannerElementHeadline(
                     headlineText: headlineText,
-                    headlineTextColor: popcorn.popupStyle.colors.textColor
+                    headlineTextColor: .black
                 )
                 BannerElementMessage(
                     expandBanner: expandBanner,
                     messageText: messageText,
-                    messageTextColor: popcorn.popupStyle.colors.textColor
+                    messageTextColor: .black
                 )
             }
         }.padding(10)

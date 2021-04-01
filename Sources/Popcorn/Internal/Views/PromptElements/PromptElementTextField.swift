@@ -28,6 +28,7 @@ struct PopupElementTextField: View {
                     self.onCommitText()
                 }
             )
+            .font(.popcornBody)
             .multilineTextAlignment(.center)
             .lineLimit(1)
             .keyboardType(keyboardType)

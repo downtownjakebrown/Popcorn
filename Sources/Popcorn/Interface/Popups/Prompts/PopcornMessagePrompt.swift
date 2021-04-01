@@ -39,37 +39,41 @@ public struct PopcornMessagePrompt<HeaderImage, ButtonFill, BackgroundFill>: Vie
     ///   - headerImage: The illustrated content at the top of the prompt.
     ///   - headerText: The header message text.
     ///   - headerTextColor: The color of the header message text.
+    ///
     ///   - bodyText: The body message text.
     ///   - bodyTextColor: The color of the body message text.
+    ///
     ///   - buttonText: The button label text.
     ///   - buttonTextColor: The color of the button label text.
     ///   - buttonFill: The button's fill style.
     ///   - buttonLoading: The loading state of the button. If true, the button is disabled and an activity icon is shown.
     ///   - buttonAction: A closure exectued when the button is tapped.
+    ///
     ///   - dragEnabled: Whether or not the popup may be dragged.
     ///   - dragDismissAction: A closure executed when the popup is dragged down past a threshold.
+    ///
     ///   - backgroundFill: The background fill style.
     ///   - backgroundTapAction: A closure executed when the background surrounding the popup is tapped.
     public init(
         
         headerImage: HeaderImage,
         headerText: String,
-        headerTextColor: Color = .black,
+        headerTextColor: Color,
         
         bodyText: String,
-        bodyTextColor: Color = .black,
+        bodyTextColor: Color,
         
         buttonText: String,
-        buttonTextColor: Color = .white,
+        buttonTextColor: Color,
         buttonFill: ButtonFill,
-        buttonLoading: Bool = false,
+        buttonLoading: Bool,
         buttonAction: @escaping () -> Void,
         
-        dragEnabled: Bool = true,
-        dragDismissAction: @escaping () -> Void = {},
+        dragEnabled: Bool,
+        dragDismissAction: @escaping () -> Void,
         
         backgroundFill: BackgroundFill,
-        backgroundTapAction: @escaping () -> Void = {}
+        backgroundTapAction: @escaping () -> Void
         
     ) {
         
@@ -97,6 +101,7 @@ public struct PopcornMessagePrompt<HeaderImage, ButtonFill, BackgroundFill>: Vie
     // View Body
     public var body: some View {
         PopupContainer(
+            backgroundFill: backgroundFill,
             dragEnabled: dragEnabled,
             dragDismissAction: dragDismissAction,
             backgroundTapAction: backgroundTapAction
@@ -110,7 +115,7 @@ public struct PopcornMessagePrompt<HeaderImage, ButtonFill, BackgroundFill>: Vie
         
         VStack(spacing: 25) {
 
-            headerImage.frame(height: 110)
+            headerImage.frame(height: 90)
             
             VStack(spacing: 15) {
                 

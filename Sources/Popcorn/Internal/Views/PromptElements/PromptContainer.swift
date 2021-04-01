@@ -4,7 +4,7 @@
 
 import SwiftUI
 
-struct PopupContainer<PopupContent>: View where PopupContent: View {
+struct PopupContainer<PopupContent, BackgroundFill>: View where PopupContent: View, BackgroundFill: ShapeStyle {
     
     @EnvironmentObject var popcorn: Popcorn
     
@@ -22,16 +22,20 @@ struct PopupContainer<PopupContent>: View where PopupContent: View {
     @State private var keyboardHeight: CGFloat = 0
     @State private var popupHeight: CGFloat = 0
     
-    var dragDismissAction: () -> Void
-    var backgroundTapAction: () -> Void
+    private let backgroundFill: BackgroundFill
+    
+    private let dragDismissAction: () -> Void
+    private let backgroundTapAction: () -> Void
     
     init(
+        backgroundFill: BackgroundFill,
         dragEnabled: Bool? = true,
         dragDismissAction: (() -> Void)? = {},
         backgroundTapAction: (() -> Void)? = {},
         isKeyboardObserving: Bool? = false,
         content: @escaping () -> PopupContent
     ){
+        self.backgroundFill = backgroundFill
         self.dragEnabled = dragEnabled!
         self.dragDismissAction = dragDismissAction!
         self.backgroundTapAction = backgroundTapAction!
@@ -45,7 +49,7 @@ struct PopupContainer<PopupContent>: View where PopupContent: View {
                 content()
                 .frame(width: getFrameWidth(viewArea.size.width))
                 .background(
-                    PopupElementBackdrop()
+                    PopupElementBackdrop(backgroundFill: backgroundFill)
                     .background(
                         Group {
                             if isKeyboardObserving {
