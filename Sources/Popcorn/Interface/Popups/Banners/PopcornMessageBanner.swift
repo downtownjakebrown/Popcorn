@@ -33,6 +33,9 @@ public struct PopcornMessageBanner<HeaderImage, BannerFill>: View where HeaderIm
     private let bannerExpanded: Bool
     private let bannerTapAction: () -> Void
 
+    // Corners
+    private let cornerStyle: PopcornCornerStyle
+    
     /// A banner for displaying a short message.
     /// - Parameters:
     ///   - headerImage: A view for displaying illustrated content in the header.
@@ -52,6 +55,8 @@ public struct PopcornMessageBanner<HeaderImage, BannerFill>: View where HeaderIm
     ///   - bannerFill: The background fill style.
     ///   - bannerExpanded: Whether or not the popup is expanded.
     ///   - bannerTapAction: A closure executed when the banner is tapped.
+    ///
+    ///   - cornerStyle: The style of the banner's corners.
     public init(
         
         headerImage: HeaderImage,
@@ -70,7 +75,9 @@ public struct PopcornMessageBanner<HeaderImage, BannerFill>: View where HeaderIm
         
         bannerFill: BannerFill,
         bannerExpanded: Bool,
-        bannerTapAction: @escaping () -> Void
+        bannerTapAction: @escaping () -> Void,
+        
+        cornerStyle: PopcornCornerStyle
         
     ) {
         
@@ -92,6 +99,8 @@ public struct PopcornMessageBanner<HeaderImage, BannerFill>: View where HeaderIm
         self.bannerExpanded = bannerExpanded
         self.bannerTapAction = bannerTapAction
         
+        self.cornerStyle = cornerStyle
+        
     }
     
     // View Body
@@ -102,7 +111,8 @@ public struct PopcornMessageBanner<HeaderImage, BannerFill>: View where HeaderIm
                 bannerFill: bannerFill,
                 dragEnabled: dragEnabled,
                 dragDismissAction: dragDismissAction,
-                tapAction: bannerTapAction
+                tapAction: bannerTapAction,
+                cornerStyle: cornerStyle
             ) {
                 bannerContentBuilder
             }

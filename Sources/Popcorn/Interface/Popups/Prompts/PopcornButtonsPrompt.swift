@@ -40,6 +40,9 @@ public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, Backgr
     private let backgroundFill: BackgroundFill
     private let backgroundTapAction: () -> Void
     
+    // Corners
+    private let cornerStyle: PopcornCornerStyle
+    
     /// A popup prompt for displaying a short message.
     /// - Parameters:
     ///   - headerImage: The illustrated content at the top of the prompt.
@@ -65,6 +68,8 @@ public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, Backgr
     ///
     ///   - backgroundFill: The background fill style.
     ///   - backgroundTapAction: A closure executed when the background surrounding the popup is tapped.
+    ///
+    ///   - cornerStyle: The style of the popup's corners.
     public init(
         
         headerImage: HeaderImage,
@@ -89,7 +94,9 @@ public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, Backgr
         dragDismissAction: @escaping () -> Void,
         
         backgroundFill: BackgroundFill,
-        backgroundTapAction: @escaping () -> Void
+        backgroundTapAction: @escaping () -> Void,
+        
+        cornerStyle: PopcornCornerStyle
         
     ) {
         
@@ -117,6 +124,8 @@ public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, Backgr
         self.backgroundFill = backgroundFill
         self.backgroundTapAction = backgroundTapAction
         
+        self.cornerStyle = cornerStyle
+        
     }
     
     // View Body
@@ -125,7 +134,8 @@ public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, Backgr
             backgroundFill: backgroundFill,
             dragEnabled: dragEnabled,
             dragDismissAction: dragDismissAction,
-            backgroundTapAction: backgroundTapAction
+            backgroundTapAction: backgroundTapAction,
+            cornerStyle: cornerStyle
         ) {
             popupContentBuilder
         }
@@ -154,14 +164,16 @@ public struct PopcornButtonsPrompt<HeaderImage, Button1Fill, Button2Fill, Backgr
                         buttonActive: button1Loading,
                         buttonFill: button1Fill,
                         buttonTextColor: button1TextColor,
-                        buttonAction: button1Action
+                        buttonAction: button1Action,
+                        cornerStyle: cornerStyle
                     )
                     PopupElementButton(
                         buttonText: button2Text,
                         buttonActive: button2Loading,
                         buttonFill: button2Fill,
                         buttonTextColor: button2TextColor,
-                        buttonAction: button2Action
+                        buttonAction: button2Action,
+                        cornerStyle: cornerStyle
                     )
                 }.padding([.horizontal, .bottom], 35)
                 

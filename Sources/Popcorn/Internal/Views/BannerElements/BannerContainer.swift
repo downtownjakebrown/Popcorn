@@ -19,11 +19,14 @@ struct BannerContainer<BannerContent, BannerFill>: View where BannerContent: Vie
     @State private var translation: CGSize = .zero
     private let dragDismissThreshold: CGFloat = 60
 
+    private let cornerStyle: PopcornCornerStyle
+    
     init(
         bannerFill: BannerFill,
         dragEnabled: Bool = true,
         dragDismissAction: @escaping () -> Void = {},
         tapAction: @escaping () -> Void = {},
+        cornerStyle: PopcornCornerStyle,
         content: @escaping () -> BannerContent
     ){
         self.bannerFill = bannerFill
@@ -31,12 +34,16 @@ struct BannerContainer<BannerContent, BannerFill>: View where BannerContent: Vie
         self.dragDismissAction = dragDismissAction
         self.tapAction = tapAction
         self.content = content
+        self.cornerStyle = cornerStyle
     }
 
     var body: some View {
         content()
         .background(
-            BannerElementBackdrop(bannerFill: bannerFill)
+            BannerElementBackdrop(
+                bannerFill: bannerFill,
+                cornerStyle: cornerStyle
+            )
         )
         .frame(maxWidth: maxBannerWidth)
         .padding(.horizontal, minHorizontalPadding)

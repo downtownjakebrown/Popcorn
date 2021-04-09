@@ -11,6 +11,7 @@ struct PopupElementButton<ButtonFill>: View where ButtonFill: ShapeStyle {
     let buttonFill: ButtonFill
     let buttonTextColor: Color
     let buttonAction: () -> Void
+    let cornerStyle: PopcornCornerStyle
     
     @EnvironmentObject var popcorn: Popcorn
     
@@ -21,12 +22,12 @@ struct PopupElementButton<ButtonFill>: View where ButtonFill: ShapeStyle {
             ZStack {
                 
                 RoundedRectangle(
-                    cornerRadius: 25,
+                    cornerRadius: cornerRadius,
                     style: .continuous
                 )
                 .fill(buttonFill)
                 .opacity(!buttonActive ? 1.0 : 0.7)
-                .shadow(color: Color.gray.opacity(0.2), radius: 5)
+                .shadow(color: Color.gray.opacity(0.15), radius: 5)
                 
                 if self.buttonActive {
                     PopupElementLoadingIndicator(color: .white)
@@ -43,6 +44,14 @@ struct PopupElementButton<ButtonFill>: View where ButtonFill: ShapeStyle {
         }
         .disabled(buttonActive)
         .frame(height: 50)
+    }
+    
+    var cornerRadius: CGFloat {
+        switch cornerStyle {
+            case .squared: return 0
+            case .rounded: return 10
+            case .capsule: return 25
+        }
     }
     
 }

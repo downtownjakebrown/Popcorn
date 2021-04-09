@@ -39,6 +39,9 @@ public struct PopcornGetTextPrompt<HeaderImage, ButtonFill, BackgroundFill>: Vie
     private let backgroundFill: BackgroundFill
     private let backgroundTapAction: () -> Void
     
+    // Corners
+    private let cornerStyle: PopcornCornerStyle
+    
     /// A popup prompt for displaying a short message.
     /// - Parameters:
     ///   - headerImage: The illustrated content at the top of the prompt.
@@ -64,6 +67,8 @@ public struct PopcornGetTextPrompt<HeaderImage, ButtonFill, BackgroundFill>: Vie
     ///
     ///   - backgroundFill: The background fill style.
     ///   - backgroundTapAction: A closure executed when the background surrounding the popup is tapped.
+    ///
+    ///   - cornerStyle: The style of the popup's corners.
     public init(
         
         headerImage: HeaderImage,
@@ -88,7 +93,9 @@ public struct PopcornGetTextPrompt<HeaderImage, ButtonFill, BackgroundFill>: Vie
         dragDismissAction: @escaping () -> Void,
         
         backgroundFill: BackgroundFill,
-        backgroundTapAction: @escaping () -> Void
+        backgroundTapAction: @escaping () -> Void,
+        
+        cornerStyle: PopcornCornerStyle
         
     ) {
        
@@ -116,6 +123,8 @@ public struct PopcornGetTextPrompt<HeaderImage, ButtonFill, BackgroundFill>: Vie
         self.backgroundFill = backgroundFill
         self.backgroundTapAction = backgroundTapAction
         
+        self.cornerStyle = cornerStyle
+        
     }
 
     // View Body
@@ -125,7 +134,8 @@ public struct PopcornGetTextPrompt<HeaderImage, ButtonFill, BackgroundFill>: Vie
             dragEnabled: dragEnabled,
             dragDismissAction: dragDismissAction,
             backgroundTapAction: backgroundTapAction,
-            isKeyboardObserving: true
+            isKeyboardObserving: true,
+            cornerStyle: cornerStyle
         ) {
             popupContentBuilder
         }
@@ -159,7 +169,8 @@ public struct PopcornGetTextPrompt<HeaderImage, ButtonFill, BackgroundFill>: Vie
                 buttonActive: buttonLoading,
                 buttonFill: buttonFill,
                 buttonTextColor: buttonTextColor,
-                buttonAction: buttonAction
+                buttonAction: buttonAction,
+                cornerStyle: cornerStyle
             )
             
         }.padding(35)

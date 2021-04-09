@@ -27,12 +27,15 @@ struct PopupContainer<PopupContent, BackgroundFill>: View where PopupContent: Vi
     private let dragDismissAction: () -> Void
     private let backgroundTapAction: () -> Void
     
+    private let cornerStyle: PopcornCornerStyle
+    
     init(
         backgroundFill: BackgroundFill,
         dragEnabled: Bool? = true,
         dragDismissAction: (() -> Void)? = {},
         backgroundTapAction: (() -> Void)? = {},
         isKeyboardObserving: Bool? = false,
+        cornerStyle: PopcornCornerStyle,
         content: @escaping () -> PopupContent
     ){
         self.backgroundFill = backgroundFill
@@ -40,6 +43,7 @@ struct PopupContainer<PopupContent, BackgroundFill>: View where PopupContent: Vi
         self.dragDismissAction = dragDismissAction!
         self.backgroundTapAction = backgroundTapAction!
         self.isKeyboardObserving = isKeyboardObserving!
+        self.cornerStyle = cornerStyle
         self.content = content
     }
     
@@ -49,7 +53,10 @@ struct PopupContainer<PopupContent, BackgroundFill>: View where PopupContent: Vi
                 content()
                 .frame(width: getFrameWidth(viewArea.size.width))
                 .background(
-                    PopupElementBackdrop(backgroundFill: backgroundFill)
+                    PopupElementBackdrop(
+                        backgroundFill: backgroundFill,
+                        cornerStyle: cornerStyle
+                    )
                     .background(
                         Group {
                             if isKeyboardObserving {
