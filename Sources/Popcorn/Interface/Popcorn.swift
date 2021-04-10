@@ -76,9 +76,9 @@ public class Popcorn: ObservableObject {
     public let objectWillChange = PassthroughSubject<Popcorn,Never>()
 
     /// Holds value of the current popup to be shown
-    public var currentPopup: Any.Type? = nil {
+    public var currentPrompt: Any.Type? = nil {
         willSet(newValue) {
-            if currentPopup != nil && newValue != nil {
+            if currentPrompt != nil && newValue != nil {
                 // If transitioning between two popups,
                 // delay the second one
                 popupShouldShow = false
@@ -118,9 +118,15 @@ public class Popcorn: ObservableObject {
     let backgroundWasTapped = ObservableObjectPublisher()
     
     /// Dismisses the current popup, if one is shown
-    public func dismissCurrentPopup() {
-        if currentPopup != nil {
-            currentPopup = nil
+    public func dismissCurrentPrompt() {
+        if currentPrompt != nil {
+            currentPrompt = nil
+        }
+    }
+    
+    public func dismissCurrentBanner() {
+        if currentBanner != nil {
+            currentBanner = nil
         }
     }
     

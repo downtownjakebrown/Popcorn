@@ -25,7 +25,7 @@ struct PopcornPopupsModifier: ViewModifier {
             ZStack {
                 // Popup Background
                 ZStack {
-                    if popcorn.currentPopup != nil {
+                    if popcorn.currentPrompt != nil {
                         PopupBackground().transition(.popupBackgroundStyle)
                     }
                 }.zIndex(0)
@@ -33,7 +33,7 @@ struct PopcornPopupsModifier: ViewModifier {
                 ZStack {
                     if popcorn.popupShouldShow {
                         ForEach(0..<popcorn.promptViews.count, id: \.self) { i in
-                            if popcorn.currentPopup == popcorn.promptNames[i] {
+                            if popcorn.currentPrompt == popcorn.promptNames[i] {
                                 popcorn.promptViews[i].transition(.promptStyle)
                             }
                         }
