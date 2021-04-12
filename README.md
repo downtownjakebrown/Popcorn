@@ -51,7 +51,7 @@ An example iOS app showing Popcorn in action can be found in this [GitHub repo](
 
 ### Setup
 
-Setting up popcorn is simple. Create your custom popups, wrap them in a `PopcornPacket`, and put the `PopcornPacket` in the `.popcornMaker(...)`. 
+Setting up popcorn is simple. Create your custom popups, wrap them in a `PopcornPacket`, and put the `PopcornPacket` in the `.popcornMaker(...)`.
 
 #### Create your popup views
 
