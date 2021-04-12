@@ -2,11 +2,7 @@
 
 [![Platform](http://img.shields.io/badge/platform-iOS-blue.svg?style=flat)](https://developer.apple.com/ios) 
 [![Language](http://img.shields.io/badge/language-Swift-brightgreen.svg?style=flat)](https://swift.org) 
-[![Stars](https://img.shields.io/github/stars/downtownjakebrown/Popcorn)](https://github.com/downtownjakebrown/Popcorn/stargazers)
-[![Issues](https://img.shields.io/github/issues-raw/downtownjakebrown/Popcorn)](https://github.com/downtownjakebrown/Popcorn/issues)
-[![Current Version](https://img.shields.io/github/v/release/downtownjakebrown/Popcorn)](https://github.com/downtownjakebrown/Popcorn)
 [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](http://mit-license.org) 
-
 
 ## Overview
 
