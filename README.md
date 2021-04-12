@@ -49,11 +49,11 @@ An example iOS app showing Popcorn in action can be found in this [GitHub repo](
 
 ## Implementation
 
-### Setup
+### Setup:
 
 Setting up popcorn is simple. Create your custom popups, wrap them in a `PopcornPacket`, and put the `PopcornPacket` in the `.popcornMaker(...)`.
 
-#### Create your popup views
+#### Create your popup views:
 
 You'll need to create a new view for each of your custom popups. Below is an example of one custom popup named `MessagePrompt`. Within the view's body, add one of the Popcorn popup template views. In this case, we're using Popcorn's `PopcornMessagePrompt` template view (see the [Popup Templates](#popup-templates) section for a list of other templates). You can customize your popup's appearance and behavior here via the template view.
 
@@ -72,7 +72,7 @@ struct MessagePrompt: View {
 }
 ```
 
-#### Put your popup views in a `PopcornPacket`
+#### Put your popup views in a `PopcornPacket`:
 
 Simply initialize your views within `PopcornPacket`. `PopcornPacket` can currently hold up to 20 popup views.
 
@@ -86,7 +86,7 @@ let popcornPacket = PopcornPacket {
 }
 ```
 
-#### Attach `.popcornMaker(...)` to your app's main view, and give it your `PopcornPacket`
+#### Attach `.popcornMaker(...)` to your app's main view, and give it your `PopcornPacket`:
 
 `popcornMaker(...)` is a view-modifying function that injects your custom popup views into your app's view hierarchy. It also creates an environmental view model named `Popcorn` and injects the view model into your app's view hierarchy. As described further below, the view model coordinates presentation of the custom popup views.
 
