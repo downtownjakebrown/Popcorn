@@ -1,5 +1,7 @@
 <img height="300" src="./Images/PopcornIcon.png">
 
+# Popcorn
+
 [![Platform](http://img.shields.io/badge/platform-iOS-blue.svg?style=flat)](https://developer.apple.com/ios) 
 [![Language](http://img.shields.io/badge/language-Swift-brightgreen.svg?style=flat)](https://swift.org) 
 [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](http://mit-license.org) 
@@ -7,7 +9,6 @@
 ## Overview
 
 A framework for easily adding custom popups to your SwiftUI app. 
-
 
 ## Table of Contents:
 
@@ -20,7 +21,6 @@ A framework for easily adding custom popups to your SwiftUI app.
 - [Contributing](#contributing)
 - [License](#license)
 
-
 ## Features
 
 Popcorn is a system for creating, managing, and presenting popups in your SwiftUI app. At a high level, Popcorn includes:
@@ -29,17 +29,16 @@ Popcorn is a system for creating, managing, and presenting popups in your SwiftU
 2. A view modifier for injecting the popup views into your app's view hierarchy; and
 3. A view model for coordinating presentation of the popup views.
 
-
 ## Installation
 
 `Popcorn` is available as a **Swift Package**. To integrate `Popcorn` into your Xcode project, specify this package's repository URL at `File -> Swift Packages -> Add Package Dependency...`
 
-### Repository URL:
+#### Repository URL:
 ```
 https://github.com/downtownjakebrown/Popcorn.git
 ```
 
-### More on Swift Packages:
+#### More on Swift Packages:
 The [Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code. It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.
 
 
@@ -50,10 +49,11 @@ An example iOS app showing Popcorn in action can be found in this [GitHub repo](
 
 ## Implementation
 
+### Setup
 
-### Setup:
+Setting up popcorn is simple. Create your custom popups, wrap them in a `PopcornPacket`, and put the `PopcornPacket` in the `.popcornMaker(...)`. 
 
-**1. Create your popup views.**
+#### Create your popup views
 
 You'll need to create a new view for each of your custom popups. Below is an example of one custom popup named `MessagePrompt`. Within the view's body, add one of the Popcorn popup template views. In this case, we're using Popcorn's `PopcornMessagePrompt` template view (see the [Popup Templates](#popup-templates) section for a list of other templates). You can customize your popup's appearance and behavior here via the template view.
 
@@ -72,7 +72,7 @@ struct MessagePrompt: View {
 }
 ```
 
-**2. Put your popup views in a `PopcornPacket`.**
+#### Put your popup views in a `PopcornPacket`
 
 Simply initialize your views within `PopcornPacket`. `PopcornPacket` can currently hold up to 20 popup views.
 
@@ -86,7 +86,7 @@ let popcornPacket = PopcornPacket {
 }
 ```
 
-**3. Attach `.popcornMaker(...)` to your app's main view, and give it your `PopcornPacket`**
+#### Attach `.popcornMaker(...)` to your app's main view, and give it your `PopcornPacket`
 
 `popcornMaker(...)` is a view-modifying function that injects your custom popup views into your app's view hierarchy. It also creates an environmental view model named `Popcorn` and injects the view model into your app's view hierarchy. As described further below, the view model coordinates presentation of the custom popup views.
 
@@ -122,7 +122,7 @@ Once Popcorn has been set up in your app, its usage is straightforward. As menti
 @EnvironmentObject var popcorn: Popcorn
 ```
 
-### Show a popup:
+#### Show a popup:
 
 To show a popup, change the values of `popcorn.currentPrompt` (if showing a prompt popup) or `popcorn.currentBanner` (if showing a banner popup). `Popcorn` uses the type of the custom popups as reference to the custom popup views. Thus, to show `MessagePrompt`, for example, just set `popcorn.currentPrompt` equal to `MessagePrompt.self`. 
 
@@ -145,7 +145,7 @@ struct ShowPopupButton: View {
 }
 ```
 
-### Hide a popup:
+#### Hide a popup:
 To hide a popup, call `popcorn.dismissCurrentPrompt()` (to hide a prompt popup) or `popcorn.dismissCurrentBanner()` (to hide a banner popup).
 
 
