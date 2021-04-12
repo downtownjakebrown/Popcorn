@@ -1,4 +1,4 @@
-![PopcornBanner](./Images/PopcornBanner.png)
+<img align="left" width="300" height="300" src="./Images/PopcornIcon.png">
 
 [![Platform](http://img.shields.io/badge/platform-iOS-blue.svg?style=flat)](https://developer.apple.com/ios) 
 [![Language](http://img.shields.io/badge/language-Swift-brightgreen.svg?style=flat)](https://swift.org) 
