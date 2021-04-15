@@ -18,9 +18,6 @@ public class Popcorn: ObservableObject {
     /// The names (the view name/type) for reference to the banner views
     var bannerNames = [Any.Type]()
     
-    /// Delay time between sequential popups
-    let delayAmount: TimeInterval = 0.5
-    
     /// Popcorn's main view model, which stores your apps popups and coordinates their presentation.
     /// - Parameter popups: The app's popups.
     init<Content>(
@@ -35,10 +32,18 @@ public class Popcorn: ObservableObject {
         var bannerViews = [AnyView]()
         var bannerNames = [Any.Type]()
         
+        // Loop through popups, and check its needed format
         for i in 0..<popups.popups.views.count {
 
+            // The presentation format of the popup
             let popupFormat: PopupFormat
-
+            
+            // TODO: Better type checking?
+            //
+            // Would prefer to refector with a better type checking
+            // method, but a way to do this is not currently clear,
+            // since the template views use generics.
+            //
             let typeString = String(describing: popups.popups.types[i])
             
             if typeString.hasPrefix("PopcornButtonsPrompt<") {
@@ -54,6 +59,7 @@ public class Popcorn: ObservableObject {
                 continue
             }
 
+            // If prompt or banner, add to appropriate list
             if popupFormat == .prompt {
                 promptViews.append(popups.popups.views[i])
                 promptNames.append(popups.popups.names[i])
@@ -64,9 +70,9 @@ public class Popcorn: ObservableObject {
 
         }
 
+        // Update self
         self.promptViews = promptViews
         self.promptNames = promptNames
-
         self.bannerViews = bannerViews
         self.bannerNames = bannerNames
         
@@ -95,41 +101,6 @@ public class Popcorn: ObservableObject {
         }
     }
     
-    /// If the current popup should be shown or not (used internally for sequence timing)
-    var popupShouldShow: Bool = true {
-        didSet {
-            if popupShouldShow == false {
-                // If we're showing sequential popups,
-                // add a delay between when the first
-                // is hidden and the second is shown
-                DispatchQueue.main.asyncAfter(deadline: .now() + delayAmount, execute: {
-                    self.popupShouldShow = true
-                })
-            } else {
-                // Send an update to show next popup
-                withAnimation(.spring()) {
-                    self.objectWillChange.send(self)
-                }
-            }
-        }
-    }
-    
-    /// To handle background tap events
-    let backgroundWasTapped = ObservableObjectPublisher()
-    
-    /// Dismisses the current popup, if one is shown
-    public func dismissCurrentPrompt() {
-        if currentPrompt != nil {
-            currentPrompt = nil
-        }
-    }
-    
-    public func dismissCurrentBanner() {
-        if currentBanner != nil {
-            currentBanner = nil
-        }
-    }
-    
     /// Holds value of the current banner to be shown
     public var currentBanner: Any.Type? = nil {
         willSet(newValue) {
@@ -146,6 +117,41 @@ public class Popcorn: ObservableObject {
             // regardless of popupShouldShow value
             withAnimation(.spring()) {
                 self.objectWillChange.send(self)
+            }
+        }
+    }
+    
+    /// Dismisses the current popup, if one is shown
+    public func dismissCurrentPrompt() {
+        if currentPrompt != nil { currentPrompt = nil }
+    }
+    
+    /// Dismisses the current banner, if one is shown
+    public func dismissCurrentBanner() {
+        if currentBanner != nil { currentBanner = nil }
+    }
+
+    /// To handle background tap events
+    let backgroundWasTapped = ObservableObjectPublisher()
+    
+    /// Delay time between sequential popups
+    let delayAmount: TimeInterval = 0.5
+    
+    /// If the current popup should be shown or not (used internally for sequence timing)
+    var popupShouldShow: Bool = true {
+        didSet {
+            if popupShouldShow == false {
+                // If we're showing sequential popups,
+                // add a delay between when the first
+                // is hidden and the second is shown
+                DispatchQueue.main.asyncAfter(deadline: .now() + delayAmount, execute: {
+                    self.popupShouldShow = true
+                })
+            } else {
+                // Send an update to show next popup
+                withAnimation(.spring()) {
+                    self.objectWillChange.send(self)
+                }
             }
         }
     }
@@ -170,5 +176,3 @@ public class Popcorn: ObservableObject {
     }
     
 }
-
-

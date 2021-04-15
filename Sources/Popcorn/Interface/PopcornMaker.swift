@@ -13,30 +13,4 @@ public extension View {
         self.modifier(PopcornPopupsModifier(popcorn: Popcorn(packet)))
     }
     
-    func popcornStyle(fillColor: Color) -> some View {
-        self.modifier(PopcornStyleModifier(fillColor: fillColor))
-    }
-    
-}
-
-struct PopcornStyleModifier: ViewModifier {
-    
-    let fillColor: Color
-    
-    @EnvironmentObject var popcorn: Popcorn
-    
-    func body(content: Content) -> some View {
-        content.environmentObject(PopcornStyle(fillColor: fillColor))
-    }
-    
-}
-
-class PopcornStyle: ObservableObject {
-    
-    let fillColor: Color
-    
-    init(fillColor: Color) {
-        self.fillColor = fillColor
-    }
-    
 }
